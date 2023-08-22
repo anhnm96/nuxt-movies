@@ -2,6 +2,9 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ['@nuxtjs/tailwindcss', '@nuxtjs/i18n', '@vueuse/nuxt'],
+  runtimeConfig: {
+    tmdbApiKey: '',
+  },
   i18n: {
     detectBrowserLanguage: {
       useCookie: true,
