@@ -1,4 +1,4 @@
-import type { MediaType } from '../types'
+import type { Media, MediaType, PageResult } from '../types'
 
 const apiBaseUrl = '/api'
 export async function fetchTMDB(
@@ -16,7 +16,11 @@ export async function fetchTMDB(
   })
 }
 
-export function getMediaList(type: MediaType, query: string, page: number) {
+export function getMediaList(
+  type: MediaType,
+  query: string,
+  page: number,
+): Promise<PageResult<Media>> {
   return fetchTMDB(`${type}/${query}`, { page })
 }
 
@@ -25,4 +29,12 @@ export function getMediaList(type: MediaType, query: string, page: number) {
  */
 export function getTrending(media: string, page = 1) {
   return fetchTMDB(`trending/${media}/week`, { page })
+}
+
+export function getMedia(type: MediaType, id: string): Promise<Media> {
+  return fetchTMDB(`${type}/${id}`, {
+    append_to_response:
+      'videos,credits,images,external_ids,release_dates,combined_credits',
+    include_image_language: 'en',
+  })
 }
