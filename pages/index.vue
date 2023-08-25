@@ -19,7 +19,7 @@ console.log({ featured })
       <div class="relative aspect-video max-h-[60vh] w-full">
         <div class="absolute inset-0 lg:left-auto lg:w-2/3">
           <img
-            :src="`${TMDB_IMAGE_BASE}${featured.backdrop_path}`"
+            :src="`${TMDB_IMAGE_BASE}/original${featured.backdrop_path}`"
             alt="hero"
             class="h-full w-full object-cover"
           />
@@ -83,6 +83,89 @@ console.log({ featured })
           </div>
         </div>
       </div>
+      <!-- end hero -->
+      <section>
+        <div class="mx-10 mt-7 flex items-baseline">
+          <h2 class="text-lg">Trending Movies</h2>
+          <a
+            class="text-primary ml-2.5 text-xs font-medium transition-opacity hover:opacity-80"
+          >
+            Explore All
+          </a>
+        </div>
+        <div class="relative mt-4 overflow-hidden">
+          <div
+            class="w-screen snap-x overflow-x-scroll whitespace-nowrap leading-[0]"
+            style="transform: translateZ(0); scroll-padding: 40px"
+          >
+            <button
+              aria-label="Previous"
+              class="absolute bottom-12 left-0 top-0 z-10 w-10 bg-black/50"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="none"
+                  stroke="#fff"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-miterlimit="10"
+                  d="M17.9 23.2L6.1 12 17.9.8"
+                ></path>
+              </svg>
+            </button>
+            <div
+              v-for="media in list.results"
+              :key="media.id"
+              class="m-0 inline-block snap-start whitespace-normal pr-2 align-top leading-relaxed first-of-type:ml-10 last-of-type:ml-10"
+              style="width: calc(25% - 18px)"
+            >
+              <div
+                class="relative h-0 overflow-hidden whitespace-normal pt-[150%] leading-relaxed"
+              >
+                <img
+                  class="absolute left-0 top-0 block h-full min-h-[1px] w-full scale-100"
+                  :src="`${TMDB_IMAGE_BASE}/w370_and_h556_bestv2${media.poster_path}`"
+                  :alt="media.title"
+                />
+              </div>
+              <p class="mt-2.5 truncate">{{ media.title }}</p>
+              <div class="flex items-baseline gap-1">
+                <StarsRate class="w-[4.5rem]" :value="media.vote_average" />
+                <p class="text-sm text-gray-400">
+                  {{ media.vote_average }}
+                </p>
+              </div>
+            </div>
+            <button
+              aria-label="Next"
+              class="absolute bottom-12 right-0 top-0 z-10 w-10 bg-black/50"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="none"
+                  stroke="#fff"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-miterlimit="10"
+                  d="M6.1 23.2L17.9 12 6.1.8"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </section>
     </main>
   </div>
 </template>
