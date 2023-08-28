@@ -13,9 +13,9 @@ console.log({ featured })
 </script>
 
 <template>
-  <div class="flex">
+  <div class="scrollbar lg:grid lg:grid-cols-[1fr_max-content]">
     <nav class="hidden h-screen w-[100px] bg-green-500 lg:block"></nav>
-    <main class="grow">
+    <main>
       <div class="relative aspect-video max-h-[60vh] w-full">
         <div class="absolute inset-0 lg:left-auto lg:w-2/3">
           <img
@@ -88,48 +88,47 @@ console.log({ featured })
         <div class="mx-10 mt-7 flex items-baseline">
           <h2 class="text-lg">Trending Movies</h2>
           <a
-            class="text-primary ml-2.5 text-xs font-medium transition-opacity hover:opacity-80"
+            class="ml-2.5 text-xs font-medium text-primary transition-opacity hover:opacity-80"
           >
             Explore All
           </a>
         </div>
         <div class="relative mt-4 overflow-hidden">
-          <div
-            class="w-screen snap-x overflow-x-scroll whitespace-nowrap leading-[0]"
-            style="transform: translateZ(0); scroll-padding: 40px"
+          <button
+            aria-label="Previous"
+            class="ease absolute bottom-[4.5rem] left-0 top-0 z-10 hidden w-10 bg-black/50 transition duration-200 hover:bg-black/75 md:block xl:w-[3.125rem]"
           >
-            <button
-              aria-label="Previous"
-              class="absolute bottom-12 left-0 top-0 z-10 w-10 bg-black/50"
+            <svg
+              class="mx-auto"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill="none"
-                  stroke="#fff"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-miterlimit="10"
-                  d="M17.9 23.2L6.1 12 17.9.8"
-                ></path>
-              </svg>
-            </button>
+              <path
+                fill="none"
+                stroke="#fff"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-miterlimit="10"
+                d="M17.9 23.2L6.1 12 17.9.8"
+              ></path>
+            </svg>
+          </button>
+          <div
+            class="w-[calc(100vw-16px)] snap-x scroll-p-4 overflow-x-scroll whitespace-nowrap md:scroll-p-10 lg:w-[calc(100vw-116px)] xl:scroll-p-[3.125rem]"
+          >
             <div
               v-for="media in list.results"
               :key="media.id"
-              class="m-0 inline-block snap-start whitespace-normal pr-2 align-top leading-relaxed first-of-type:ml-10 last-of-type:ml-10"
-              style="width: calc(25% - 18px)"
+              class="group inline-block w-[calc(33.33%-7.33326px)] snap-start pr-2 leading-relaxed first-of-type:ml-10 last-of-type:ml-10 sm:w-[calc(25%-18px)] lg:w-[calc(20%-14.4px)] xl:w-[calc(20%-18.4px)] xl:first-of-type:ml-[3.125rem] 2xl:w-[calc(16.667%-15.33364px)]"
             >
               <div
-                class="relative h-0 overflow-hidden whitespace-normal pt-[150%] leading-relaxed"
+                class="relative h-0 overflow-hidden pt-[150%] transition-transform duration-500 ease-in-out group-hover:scale-[1.03]"
               >
                 <img
-                  class="absolute left-0 top-0 block h-full min-h-[1px] w-full scale-100"
+                  class="absolute left-0 top-0 block h-full w-full"
                   :src="`${TMDB_IMAGE_BASE}/w370_and_h556_bestv2${media.poster_path}`"
                   :alt="media.title"
                 />
@@ -142,28 +141,29 @@ console.log({ featured })
                 </p>
               </div>
             </div>
-            <button
-              aria-label="Next"
-              class="absolute bottom-12 right-0 top-0 z-10 w-10 bg-black/50"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill="none"
-                  stroke="#fff"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-miterlimit="10"
-                  d="M6.1 23.2L17.9 12 6.1.8"
-                ></path>
-              </svg>
-            </button>
           </div>
+          <button
+            aria-label="Next"
+            class="ease absolute bottom-[4.5rem] right-0 top-0 z-10 hidden w-10 bg-black/50 transition duration-200 hover:bg-black/75 md:block xl:w-[3.125rem]"
+          >
+            <svg
+              class="mx-auto"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <path
+                fill="none"
+                stroke="#fff"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-miterlimit="10"
+                d="M6.1 23.2L17.9 12 6.1.8"
+              ></path>
+            </svg>
+          </button>
         </div>
       </section>
     </main>
