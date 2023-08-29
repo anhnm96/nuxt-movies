@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { Pausable } from '@vueuse/core'
 import { CarouselKey } from './keys'
+
 const props = defineProps({
   initialIndex: {
     type: Number,
@@ -17,7 +18,10 @@ const props = defineProps({
       return value >= 0
     },
   },
-  itemsClass: String,
+  itemsClass: {
+    type: String,
+    default: 'overflow-x-auto w-full flex',
+  },
   itemsToList: {
     type: Number,
     default: -1,
@@ -234,17 +238,18 @@ onBeforeUnmount(() => {
       :class="itemsClass"
       @pointerdown="pointerStart"
     >
-      <slot :active-index="activeIndex" :scroll-to="scrollTo" />
+      <slot
+        :active-index="activeIndex"
+        :scroll-to="scrollTo"
+        :prev="prev"
+        :next="next"
+      />
     </div>
   </div>
 </template>
 
 <style scoped>
 .carousel {
-  overflow-x: auto;
-  width: 100%;
-  display: flex;
-
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
