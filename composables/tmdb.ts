@@ -21,7 +21,7 @@ export function getMediaList(
   query: string,
   page: number,
 ): Promise<PageResult<Media>> {
-  return fetchTMDB(`${type}/${query}`, { page })
+  return fetchTMDB(`trending/${type}/${query}`, { page })
 }
 
 /**
