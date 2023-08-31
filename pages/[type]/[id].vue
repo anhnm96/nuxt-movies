@@ -20,6 +20,31 @@ const item = await getMedia(type, id)
 console.log(item)
 const tab = ref<'overview' | 'videos' | 'photos'>('overview')
 
+const externalIds = (function () {
+  if (!item.external_ids) return []
+  const res = []
+  for (const [key, value] of Object.entries(item.external_ids)) {
+    const id = key.substring(0, key.length - 3)
+    let link
+    if (id === 'imdb') {
+      link = `https://imdb.com/title/${value}`
+    } else if (id === 'wikidata') {
+      link = `https://wikidata.org/wiki/${value}`
+    } else {
+      link = `https://${id}.com/${value}`
+    }
+
+    res.push({
+      id,
+      link,
+      icon: `simple-icons:${id}`,
+    })
+  }
+  res.push({ id: 'homepage', link: item.homepage, icon: 'i-ph-link-simple' })
+
+  return res
+})()
+
 const directors = computed(
   () => item.credits?.crew.filter((person) => person.job === 'Director'),
 )
@@ -158,7 +183,7 @@ const directors = computed(
                   <template v-if="item.runtime">
                     <li class="contents">
                       <p>Runtime</p>
-                      <p>{{ item.runtime }}</p>
+                      <p>{{ formatTime(item.runtime) }}</p>
                     </li>
                   </template>
                   <template v-if="directors?.length">
@@ -178,13 +203,13 @@ const directors = computed(
                   <template v-if="item.budget">
                     <li class="contents">
                       <p>Budget</p>
-                      <p>{{ item.budget }}</p>
+                      <p>${{ numberWithCommas(item.budget) }}</p>
                     </li>
                   </template>
                   <template v-if="item.revenue">
                     <li class="contents">
                       <p>Revenue</p>
-                      <p>{{ item.revenue }}</p>
+                      <p>${{ numberWithCommas(item.revenue) }}</p>
                     </li>
                   </template>
                   <template v-if="item.genres?.length">
@@ -230,7 +255,19 @@ const directors = computed(
                     </li>
                   </template>
                 </ul>
-                <ul></ul>
+                <ul class="-ml-[0.6875rem] flex">
+                  <li v-for="e in externalIds" :key="e.id">
+                    <a
+                      class="inline-flex h-11 w-11 items-center justify-center transition-colors duration-300 ease-in-out hover:text-primary"
+                      :href="e.link"
+                      target="_blank"
+                      :aria-label="`Link to ${e.id} account`"
+                      rel="noopener noreferrer"
+                    >
+                      <Icon :name="e.icon" size="1.375em" />
+                    </a>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>

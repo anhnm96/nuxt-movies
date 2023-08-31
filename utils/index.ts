@@ -16,3 +16,9 @@ export function formatTime(minutes: number) {
 
   return `${hours ? `${hours}h` : ''} ${mins}min`
 }
+
+export function numberWithCommas(number: number) {
+  const i18n = useNuxtApp().$i18n
+  // i18n.localeProperties.code
+  return new Intl.NumberFormat(unref(i18n.locale)).format(number)
+}

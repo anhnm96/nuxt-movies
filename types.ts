@@ -35,6 +35,7 @@ export interface Media {
     backdrops: Image[]
     posters: Image[]
   }
+  external_ids?: ExternalIds
 }
 
 export interface Image {
@@ -60,6 +61,7 @@ export interface Person {
   character: string
   credit_id: string
   order: number
+  job?: string
 }
 
 export interface Video {
@@ -85,4 +87,15 @@ export interface PageResult<T> {
   results: T[]
   total_pages: number
   total_results: number
+}
+
+export interface ExternalIds {
+  imdb_id?: string
+  facebook_id?: string
+  instagram_id?: string
+  twitter_id?: string
+  linkedin_id?: string
+  github_id?: string
+  email?: string
+  homepage?: string
 }
