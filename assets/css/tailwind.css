@@ -50,3 +50,17 @@ Not supports in Firefox and IE */
     background-color: #909090;
   }
 }
+
+@layer utilities {
+  .wrapper {
+    @apply px-4 md:px-10 xl:px-14;
+  }
+
+  .margin-y {
+    @apply mt-6 xl:mt-10;
+  }
+
+  .text-anim {
+    @apply transition-colors duration-300 ease-linear;
+  }
+}

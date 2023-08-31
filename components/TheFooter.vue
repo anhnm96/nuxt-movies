@@ -90,7 +90,7 @@ function updateLocale(event: Event) {
       <ul class="-ml-[0.6875rem] flex">
         <li>
           <a
-            class="transition-color inline-flex h-11 w-11 items-center justify-center duration-300 ease-in-out hover:text-primary"
+            class="inline-flex h-11 w-11 items-center justify-center transition-colors duration-300 ease-in-out hover:text-primary"
             href="https://twitter.com/anhnm896"
             target="_blank"
             aria-label="Link to Twitter account"
