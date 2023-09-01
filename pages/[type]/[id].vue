@@ -259,7 +259,7 @@ const directors = computed(
                   <ul class="-ml-[0.6875rem] flex">
                     <li v-for="e in externalIds" :key="e.id">
                       <a
-                        class="inline-flex h-11 w-11 items-center justify-center transition-colors duration-300 ease-in-out hover:text-primary"
+                        class="text-anim inline-flex h-11 w-11 items-center justify-center hover:text-primary"
                         :href="e.link"
                         target="_blank"
                         :aria-label="`Link to ${e.id} account`"
@@ -304,7 +304,7 @@ const directors = computed(
                   <CarouselItem
                     v-for="person in item.credits.cast"
                     :key="person.id"
-                    class="group inline-block w-[calc(33.33%-7.33326px)] snap-start pr-2 leading-relaxed first-of-type:ml-[.9375rem] last-of-type:mr-[.4375rem] sm:w-[calc(25%-18px)] md:first-of-type:ml-10 md:last-of-type:mr-8 lg:w-[calc(20%-14.4px)] xl:w-[calc(20%-18.4px)] xl:first-of-type:ml-[3.125rem] xl:first-of-type:ml-[3.125rem] xl:last-of-type:mr-[2.625rem] 2xl:w-[calc(16.667%-15.33364px)]"
+                    class="group inline-block w-[calc(33.33%-7.33326px)] snap-start pr-2 leading-relaxed first-of-type:ml-[.9375rem] last-of-type:mr-[.4375rem] sm:w-[calc(25%-18px)] md:first-of-type:ml-10 md:last-of-type:mr-8 lg:w-[calc(20%-14.4px)] xl:w-[calc(20%-18.4px)] xl:first-of-type:ml-[3.125rem] xl:last-of-type:mr-[2.625rem] 2xl:w-[calc(16.667%-15.33364px)]"
                   >
                     <NuxtLink :to="`/person/${person.id}`">
                       <div
