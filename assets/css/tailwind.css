@@ -57,7 +57,7 @@ Not supports in Firefox and IE */
   }
 
   .margin-y {
-    @apply mt-6 xl:mt-10;
+    @apply mt-6 md:mt-7 lg:mt-9 xl:mt-12;
   }
 
   .text-anim {
