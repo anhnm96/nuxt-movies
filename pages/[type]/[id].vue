@@ -15,7 +15,10 @@ const id = route.params.id as string
 // const type = computed(() => (route.params.type as MediaType) || 'movie')
 // const id = computed(() => route.params.id as string)
 
-const item = await getMedia(type, id)
+const [item, recommendations] = await Promise.all([
+  getMedia(type, id),
+  getRecommendations(type, id),
+])
 console.log(item)
 const tab = ref<'overview' | 'videos' | 'photos'>('overview')
 
@@ -340,6 +343,63 @@ const directors = computed(
               </div>
             </template>
           </div>
+        </section>
+        <!-- recommendations -->
+        <section class="margin-y">
+          <div
+            class="mx-[.9375rem] flex items-baseline md:mx-10 xl:mx-[3.125rem]"
+          >
+            <h2 class="text-lg md:text-xl lg:text-2xl xl:text-3xl">
+              More Like This
+            </h2>
+          </div>
+          <Carousel
+            class="relative mt-4 overflow-hidden"
+            items-class="w-[calc(100vw-16px)] scroll-p-[.9375rem] overflow-x-scroll whitespace-nowrap md:scroll-p-10 lg:w-[calc(100vw-116px)] xl:scroll-p-[3.125rem]"
+          >
+            <template #header="{ prev, next }">
+              <button
+                class="ease absolute bottom-14 left-0 top-0 z-10 hidden w-10 bg-black/50 text-3xl transition duration-200 hover:bg-black/75 md:block xl:w-[3.125rem]"
+                aria-label="Previous"
+                @click="prev"
+              >
+                <Icon name="heroicons:chevron-left" />
+              </button>
+              <button
+                class="ease absolute bottom-14 right-0 top-0 z-10 hidden w-10 bg-black/50 text-3xl transition duration-200 hover:bg-black/75 md:block xl:w-[3.125rem]"
+                aria-label="Next"
+                @click="next"
+              >
+                <Icon name="heroicons:chevron-right" />
+              </button>
+            </template>
+            <template #default>
+              <CarouselItem
+                v-for="media in recommendations.results"
+                :key="media.id"
+                class="group inline-block w-[calc(33.33%-7.33326px)] snap-start pr-2 leading-relaxed first-of-type:ml-[.9375rem] last-of-type:mr-[.4375rem] sm:w-[calc(25%-18px)] md:first-of-type:ml-10 md:last-of-type:mr-8 lg:w-[calc(20%-14.4px)] xl:w-[calc(20%-18.4px)] xl:first-of-type:ml-[3.125rem] xl:last-of-type:mr-[2.625rem] 2xl:w-[calc(16.667%-15.33364px)]"
+              >
+                <NuxtLink :to="`/movie/${media.id}`">
+                  <div
+                    class="relative h-0 overflow-hidden pt-[150%] transition-transform duration-500 ease-in-out group-hover:scale-[1.03]"
+                  >
+                    <img
+                      class="absolute left-0 top-0 block h-full w-full"
+                      :src="`${TMDB_IMAGE_BASE}/w370_and_h556_bestv2${media.poster_path}`"
+                      :alt="media.title"
+                    />
+                  </div>
+                  <p class="mt-2.5 truncate">{{ media.title }}</p>
+                  <div class="flex items-baseline gap-1">
+                    <StarsRate class="w-[4.5rem]" :value="media.vote_average" />
+                    <p class="text-sm text-gray-400">
+                      {{ media.vote_average }}
+                    </p>
+                  </div>
+                </NuxtLink>
+              </CarouselItem>
+            </template>
+          </Carousel>
         </section>
       </main>
       <TheFooter />

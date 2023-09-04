@@ -38,3 +38,14 @@ export function getMedia(type: MediaType, id: string): Promise<Media> {
     include_image_language: 'en',
   })
 }
+
+/**
+ * Get recommended
+ */
+export function getRecommendations(
+  type: MediaType,
+  id: string,
+  page = 1,
+): Promise<PageResult<Media>> {
+  return fetchTMDB(`${type}/${id}/recommendations`, { page })
+}
