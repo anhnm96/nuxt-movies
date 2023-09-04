@@ -3,6 +3,9 @@
     class="scrollbar grid grid-rows-[1fr_max-content] lg:grid-cols-[max-content_1fr]"
   >
     <TheNavbar />
-    <NuxtPage />
+    <div>
+      <NuxtPage />
+      <TheFooter />
+    </div>
   </div>
 </template>
