@@ -38,6 +38,20 @@ export interface Media {
   external_ids?: ExternalIds
 }
 
+// export interface Movie extends Media {
+//   title: string
+//   original_title: string
+//   release_date: string
+//   video: boolean
+// }
+
+// export interface TV extends Media {
+//   name: string
+//   original_name: string
+//   first_air_date: string
+//   origin_country: string
+// }
+
 export interface Image {
   aspect_ratio: number
   height: number

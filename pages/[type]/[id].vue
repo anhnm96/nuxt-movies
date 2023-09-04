@@ -240,28 +240,7 @@ const directors = computed(
                   :key="person.id"
                   class="group inline-block w-[calc(33.33%-7.33326px)] snap-start pr-2 leading-relaxed first-of-type:ml-[.9375rem] last-of-type:mr-[.4375rem] sm:w-[calc(25%-18px)] md:first-of-type:ml-10 md:last-of-type:mr-8 lg:w-[calc(20%-14.4px)] xl:w-[calc(20%-18.4px)] xl:first-of-type:ml-[3.125rem] xl:last-of-type:mr-[2.625rem] 2xl:w-[calc(16.667%-15.33364px)]"
                 >
-                  <NuxtLink :to="`/person/${person.id}`">
-                    <div
-                      class="relative h-0 overflow-hidden pt-[150%] transition-transform duration-500 ease-in-out group-hover:scale-[1.03]"
-                    >
-                      <img
-                        v-if="person.profile_path"
-                        class="absolute left-0 top-0 block h-full w-full"
-                        :src="`${TMDB_IMAGE_BASE}/w370_and_h556_bestv2${person.profile_path}`"
-                        :alt="person.name"
-                      />
-                      <div
-                        v-else
-                        class="absolute left-0 top-0 grid h-full w-full place-items-center bg-gray-800 text-4xl"
-                      >
-                        <Icon name="clarity:image-line" />
-                      </div>
-                    </div>
-                    <p class="mt-2.5 truncate">{{ person.name }}</p>
-                    <p class="text-sm text-gray-400">
-                      {{ person.character || person.known_for_department }}
-                    </p>
-                  </NuxtLink>
+                  <MediaCard :item="person" type="person" />
                 </CarouselItem>
               </template>
             </Carousel>
@@ -372,24 +351,7 @@ const directors = computed(
             :key="media.id"
             class="group inline-block w-[calc(33.33%-7.33326px)] snap-start pr-2 leading-relaxed first-of-type:ml-[.9375rem] last-of-type:mr-[.4375rem] sm:w-[calc(25%-18px)] md:first-of-type:ml-10 md:last-of-type:mr-8 lg:w-[calc(20%-14.4px)] xl:w-[calc(20%-18.4px)] xl:first-of-type:ml-[3.125rem] xl:last-of-type:mr-[2.625rem] 2xl:w-[calc(16.667%-15.33364px)]"
           >
-            <NuxtLink :to="`/movie/${media.id}`">
-              <div
-                class="relative h-0 overflow-hidden pt-[150%] transition-transform duration-500 ease-in-out group-hover:scale-[1.03]"
-              >
-                <img
-                  class="absolute left-0 top-0 block h-full w-full"
-                  :src="`${TMDB_IMAGE_BASE}/w370_and_h556_bestv2${media.poster_path}`"
-                  :alt="media.title"
-                />
-              </div>
-              <p class="mt-2.5 truncate">{{ media.title }}</p>
-              <div class="flex items-baseline gap-1">
-                <StarsRate class="w-[4.5rem]" :value="media.vote_average" />
-                <p class="text-sm text-gray-400">
-                  {{ media.vote_average }}
-                </p>
-              </div>
-            </NuxtLink>
+            <MediaCard :item="media" :type="type" />
           </CarouselItem>
         </template>
       </Carousel>

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { Media } from '@/types'
-import { TMDB_IMAGE_BASE } from '@/constants/images'
 
 const list = await getMediaList('movie', 'week', 1)
 const featured = ref<Media>(
@@ -83,24 +82,7 @@ console.log({ featured })
             :key="media.id"
             class="group inline-block w-[calc(33.33%-7.33326px)] snap-start pr-2 leading-relaxed first-of-type:ml-[.9375rem] last-of-type:mr-[.4375rem] sm:w-[calc(25%-18px)] md:first-of-type:ml-10 md:last-of-type:mr-8 lg:w-[calc(20%-14.4px)] xl:w-[calc(20%-18.4px)] xl:first-of-type:ml-[3.125rem] xl:last-of-type:mr-[2.625rem] 2xl:w-[calc(16.667%-15.33364px)]"
           >
-            <NuxtLink :to="`/movie/${media.id}`">
-              <div
-                class="relative h-0 overflow-hidden pt-[150%] transition-transform duration-500 ease-in-out group-hover:scale-[1.03]"
-              >
-                <img
-                  class="absolute left-0 top-0 block h-full w-full"
-                  :src="`${TMDB_IMAGE_BASE}/w370_and_h556_bestv2${media.poster_path}`"
-                  :alt="media.title"
-                />
-              </div>
-              <p class="mt-2.5 truncate">{{ media.title }}</p>
-              <div class="flex items-baseline gap-1">
-                <StarsRate class="w-[4.5rem]" :value="media.vote_average" />
-                <p class="text-sm text-gray-400">
-                  {{ media.vote_average }}
-                </p>
-              </div>
-            </NuxtLink>
+            <MediaCard :item="media" type="movie" />
           </CarouselItem>
         </template>
       </Carousel>
@@ -173,24 +155,7 @@ console.log({ featured })
             :key="media.id"
             class="group inline-block w-[calc(33.33%-7.33326px)] snap-start pr-2 leading-relaxed first-of-type:ml-[.9375rem] last-of-type:mr-[.4375rem] sm:w-[calc(25%-18px)] md:first-of-type:ml-10 md:last-of-type:mr-8 lg:w-[calc(20%-14.4px)] xl:w-[calc(20%-18.4px)] xl:first-of-type:ml-[3.125rem] xl:last-of-type:mr-[2.625rem] 2xl:w-[calc(16.667%-15.33364px)]"
           >
-            <NuxtLink :to="`/tv/${media.id}`">
-              <div
-                class="relative h-0 overflow-hidden pt-[150%] transition-transform duration-500 ease-in-out group-hover:scale-[1.03]"
-              >
-                <img
-                  class="absolute left-0 top-0 block h-full w-full"
-                  :src="`${TMDB_IMAGE_BASE}/w370_and_h556_bestv2${media.poster_path}`"
-                  :alt="media.name"
-                />
-              </div>
-              <p class="mt-2.5 truncate">{{ media.name }}</p>
-              <div class="flex items-baseline gap-1">
-                <StarsRate class="w-[4.5rem]" :value="media.vote_average" />
-                <p class="text-sm text-gray-400">
-                  {{ media.vote_average }}
-                </p>
-              </div>
-            </NuxtLink>
+            <MediaCard :item="media" type="tv" />
           </CarouselItem>
         </template>
       </Carousel>

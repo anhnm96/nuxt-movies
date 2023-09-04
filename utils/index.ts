@@ -22,3 +22,8 @@ export function numberWithCommas(number: number) {
   // i18n.localeProperties.code
   return new Intl.NumberFormat(unref(i18n.locale)).format(number)
 }
+
+// Checking Type of a Value, (interface, type)
+export function instanceOf<T>(value: any, fieldName: string): value is T {
+  return fieldName in value
+}
