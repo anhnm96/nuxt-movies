@@ -292,6 +292,53 @@ const directors = computed(
                 </div>
               </div>
             </template>
+            <template v-if="tab === 'photos'">
+              <div class="wrapper lg:container">
+                <section>
+                  <div class="flex items-baseline">
+                    <h2 class="text-lg md:text-xl lg:text-2xl xl:text-3xl">
+                      Backdrops
+                    </h2>
+                    <span
+                      class="ml-2.5 text-xs font-medium text-gray-400/90 md:text-sm xl:text-base"
+                      >{{ item.images?.backdrops?.length }} Images</span
+                    >
+                  </div>
+                  <div
+                    class="mt-4 grid grid-cols-[repeat(auto-fit,_minmax(250px,_1fr))] gap-2 xl:mt-5"
+                  >
+                    <div v-for="i of item.images?.backdrops" :key="i.file_path">
+                      <img
+                        :src="`${TMDB_IMAGE_BASE}/w533_and_h300_bestv2${i.file_path}`"
+                        alt="photo"
+                      />
+                    </div>
+                  </div>
+                </section>
+                <section class="margin-y">
+                  <div class="flex items-baseline">
+                    <h2 class="text-lg md:text-xl lg:text-2xl xl:text-3xl">
+                      Posters
+                    </h2>
+                    <span
+                      class="ml-2.5 text-xs font-medium text-gray-400/90 md:text-sm xl:text-base"
+                      >{{ item.images?.posters?.length }} Images</span
+                    >
+                  </div>
+                  <div
+                    class="mt-4 grid grid-cols-[repeat(auto-fit,_minmax(208px,_1fr))] gap-2 xl:mt-5"
+                  >
+                    <div v-for="i of item.images?.posters" :key="i.file_path">
+                      <img
+                        loading="lazy"
+                        :src="`${TMDB_IMAGE_BASE}/w370_and_h556_bestv2${i.file_path}`"
+                        alt="photo"
+                      />
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </template>
           </div>
         </section>
       </main>
