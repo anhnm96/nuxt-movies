@@ -1,7 +1,7 @@
 <template>
   <Carousel
     class="relative overflow-hidden"
-    items-class="w-[calc(100vw-16px)] scroll-p-[.9375rem] overflow-x-scroll whitespace-nowrap md:scroll-p-10 lg:w-[calc(100vw-86px)] xl:scroll-p-[3.125rem]"
+    items-class="w-[calc(100vw-16px)] scroll-p-[.9375rem] overflow-x-scroll whitespace-nowrap md:scroll-p-10 lg:w-[calc(100vw-87px)] xl:scroll-p-[3.125rem]"
   >
     <template #header="{ prev, next }">
       <button

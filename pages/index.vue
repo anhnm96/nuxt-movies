@@ -1,14 +1,10 @@
 <script setup lang="ts">
 import type { Media } from '@/types'
 
-const list = await getMediaList('movie', 'week', 1)
-const featured = ref<Media>(
-  list.results[0],
-  // list.results[Math.floor(Math.random() * 5],
-)
+const list = await getTrending('movie', 1)
+const featured = ref<Media>(list.results[Math.floor(Math.random() * 4)])
 getMedia('movie', featured.value.id).then((data) => (featured.value = data))
-const tvShows = await getMediaList('tv', 'week', 1)
-console.log({ featured })
+const tvShows = await getTrending('tv', 1)
 </script>
 
 <template>
