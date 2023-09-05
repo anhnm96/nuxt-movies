@@ -213,37 +213,15 @@ const directors = computed(
             >
               <h2 class="text-lg md:text-xl lg:text-2xl xl:text-3xl">Cast</h2>
             </div>
-            <Carousel
-              v-if="item.credits?.cast?.length"
-              class="relative mt-4 overflow-hidden"
-              items-class="w-[calc(100vw-16px)] scroll-p-[.9375rem] overflow-x-scroll whitespace-nowrap md:scroll-p-10 lg:w-[calc(100vw-116px)] xl:scroll-p-[3.125rem]"
-            >
-              <template #header="{ prev, next }">
-                <button
-                  class="ease absolute bottom-14 left-0 top-0 z-10 hidden w-10 bg-black/50 text-3xl transition duration-200 hover:bg-black/75 md:block xl:w-[3.125rem]"
-                  aria-label="Previous"
-                  @click="prev"
-                >
-                  <Icon name="heroicons:chevron-left" />
-                </button>
-                <button
-                  class="ease absolute bottom-14 right-0 top-0 z-10 hidden w-10 bg-black/50 text-3xl transition duration-200 hover:bg-black/75 md:block xl:w-[3.125rem]"
-                  aria-label="Next"
-                  @click="next"
-                >
-                  <Icon name="heroicons:chevron-right" />
-                </button>
-              </template>
-              <template #default>
-                <CarouselItem
-                  v-for="person in item.credits.cast"
-                  :key="person.id"
-                  class="group inline-block w-[calc(33.33%-7.33326px)] snap-start pr-2 leading-relaxed first-of-type:ml-[.9375rem] last-of-type:mr-[.4375rem] sm:w-[calc(25%-18px)] md:first-of-type:ml-10 md:last-of-type:mr-8 lg:w-[calc(20%-14.4px)] xl:w-[calc(20%-18.4px)] xl:first-of-type:ml-[3.125rem] xl:last-of-type:mr-[2.625rem] 2xl:w-[calc(16.667%-15.33364px)]"
-                >
-                  <MediaCard :item="person" type="person" />
-                </CarouselItem>
-              </template>
-            </Carousel>
+            <MediaList v-if="item.credits?.cast?.length" class="mt-4">
+              <CarouselItem
+                v-for="person in item.credits.cast"
+                :key="person.id"
+                class="group inline-block w-[calc(33.33%-7.33326px)] snap-start pr-2 leading-relaxed first-of-type:ml-[.9375rem] last-of-type:mr-[.4375rem] sm:w-[calc(25%-18px)] md:first-of-type:ml-10 md:last-of-type:mr-8 lg:w-[calc(20%-14.4px)] xl:w-[calc(20%-18.4px)] xl:first-of-type:ml-[3.125rem] xl:last-of-type:mr-[2.625rem] 2xl:w-[calc(16.667%-15.33364px)]"
+              >
+                <MediaCard :item="person" type="person" />
+              </CarouselItem>
+            </MediaList>
           </section>
         </template>
         <template v-if="tab === 'videos'">
@@ -325,36 +303,15 @@ const directors = computed(
           More Like This
         </h2>
       </div>
-      <Carousel
-        class="relative mt-4 overflow-hidden"
-        items-class="w-[calc(100vw-16px)] scroll-p-[.9375rem] overflow-x-scroll whitespace-nowrap md:scroll-p-10 lg:w-[calc(100vw-116px)] xl:scroll-p-[3.125rem]"
-      >
-        <template #header="{ prev, next }">
-          <button
-            class="ease absolute bottom-14 left-0 top-0 z-10 hidden w-10 bg-black/50 text-3xl transition duration-200 hover:bg-black/75 md:block xl:w-[3.125rem]"
-            aria-label="Previous"
-            @click="prev"
-          >
-            <Icon name="heroicons:chevron-left" />
-          </button>
-          <button
-            class="ease absolute bottom-14 right-0 top-0 z-10 hidden w-10 bg-black/50 text-3xl transition duration-200 hover:bg-black/75 md:block xl:w-[3.125rem]"
-            aria-label="Next"
-            @click="next"
-          >
-            <Icon name="heroicons:chevron-right" />
-          </button>
-        </template>
-        <template #default>
-          <CarouselItem
-            v-for="media in recommendations.results"
-            :key="media.id"
-            class="group inline-block w-[calc(33.33%-7.33326px)] snap-start pr-2 leading-relaxed first-of-type:ml-[.9375rem] last-of-type:mr-[.4375rem] sm:w-[calc(25%-18px)] md:first-of-type:ml-10 md:last-of-type:mr-8 lg:w-[calc(20%-14.4px)] xl:w-[calc(20%-18.4px)] xl:first-of-type:ml-[3.125rem] xl:last-of-type:mr-[2.625rem] 2xl:w-[calc(16.667%-15.33364px)]"
-          >
-            <MediaCard :item="media" :type="type" />
-          </CarouselItem>
-        </template>
-      </Carousel>
+      <MediaList class="mt-4">
+        <CarouselItem
+          v-for="media in recommendations.results"
+          :key="media.id"
+          class="group inline-block w-[calc(33.33%-7.33326px)] snap-start pr-2 leading-relaxed first-of-type:ml-[.9375rem] last-of-type:mr-[.4375rem] sm:w-[calc(25%-18px)] md:first-of-type:ml-10 md:last-of-type:mr-8 lg:w-[calc(20%-14.4px)] xl:w-[calc(20%-18.4px)] xl:first-of-type:ml-[3.125rem] xl:last-of-type:mr-[2.625rem] 2xl:w-[calc(16.667%-15.33364px)]"
+        >
+          <MediaCard :item="media" :type="type" />
+        </CarouselItem>
+      </MediaList>
     </section>
   </main>
 </template>
