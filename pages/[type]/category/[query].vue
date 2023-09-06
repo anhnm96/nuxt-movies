@@ -17,11 +17,11 @@ fetch(1)
 
 <template>
   <main class="margin-y wrapper mx-auto lg:container">
-    <h1 class="">
+    <h2>
       <span class="capitalize">{{ query.replace(/_/g, ' ') }}</span
       >&nbsp;
       <span>{{ type === 'tv' ? 'TV' : 'Movies' }}</span>
-    </h1>
+    </h2>
     <div
       class="mt-4 grid grid-cols-[repeat(auto-fit,_minmax(208px,_1fr))] gap-2 xl:mt-5"
     >

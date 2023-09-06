@@ -50,11 +50,12 @@ const lists = computed(() => [list1, list2, list3])
     <section class="mt-7 md:mt-10 xl:mt-14">
       <div class="mx-[.9375rem] flex items-baseline md:mx-10 xl:mx-[3.125rem]">
         <h2 class="text-lg md:text-xl xl:text-2xl">Popular Movies</h2>
-        <a
+        <NuxtLink
+          :to="`/${type}/category/${QUERY_LIST[type][0].query}`"
           class="ml-2.5 text-xs font-medium text-primary transition-opacity hover:opacity-80 md:text-sm xl:text-base"
         >
           Explore All
-        </a>
+        </NuxtLink>
       </div>
       <MediaList class="mt-4">
         <CarouselItem
@@ -73,11 +74,12 @@ const lists = computed(() => [list1, list2, list3])
     >
       <div class="mx-[.9375rem] flex items-baseline md:mx-10 xl:mx-[3.125rem]">
         <h2 class="text-lg md:text-xl xl:text-2xl">{{ q.title }}</h2>
-        <a
+        <NuxtLink
+          :to="`/${type}/category/${q.query}`"
           class="ml-2.5 text-xs font-medium text-primary transition-opacity hover:opacity-80 md:text-sm xl:text-base"
         >
           Explore All
-        </a>
+        </NuxtLink>
       </div>
       <MediaList class="mt-4">
         <CarouselItem
