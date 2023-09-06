@@ -27,8 +27,8 @@ export function getMediaList(
 /**
  * Get trending
  */
-export function getTrending(media: string, page = 1) {
-  return fetchTMDB(`trending/${media}/week`, { page })
+export function getTrending(type: MediaType, page = 1) {
+  return fetchTMDB(`trending/${type}/week`, { page })
 }
 
 export function getMedia(type: MediaType, id: string): Promise<Media> {

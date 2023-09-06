@@ -10,7 +10,7 @@ defineProps<{
 
 <template>
   <template v-if="instanceOf<Media>(item, 'overview')">
-    <NuxtLink :to="`/${type}/${item.id}`">
+    <NuxtLink class="group" :to="`/${type}/${item.id}`">
       <div
         class="relative h-0 overflow-hidden pt-[150%] transition-transform duration-500 ease-in-out group-hover:scale-[1.03]"
       >
@@ -30,7 +30,7 @@ defineProps<{
     </NuxtLink>
   </template>
   <template v-if="instanceOf<Person>(item, 'gender')">
-    <NuxtLink :to="`/item/${item.id}`">
+    <NuxtLink class="group" :to="`/item/${item.id}`">
       <div
         class="relative h-0 overflow-hidden pt-[150%] transition-transform duration-500 ease-in-out group-hover:scale-[1.03]"
       >
