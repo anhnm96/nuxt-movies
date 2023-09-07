@@ -7,12 +7,14 @@ const query = route.params.query as string
 
 const items: Media[] = reactive([])
 
-async function fetch(page: number) {
+let page = 1
+async function fetch() {
   if (query === 'trending')
     items.push(...(await getTrending(type, page)).results)
   else items.push(...(await getMediaList(type, query, page)).results)
+  page++
 }
-fetch(1)
+await fetch()
 </script>
 
 <template>
@@ -32,5 +34,6 @@ fetch(1)
         :type="type"
       />
     </div>
+    <InfiniteLoad @infinite-load="fetch" />
   </main>
 </template>
