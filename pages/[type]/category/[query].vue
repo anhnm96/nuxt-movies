@@ -18,7 +18,7 @@ await fetch()
 </script>
 
 <template>
-  <main class="margin-y wrapper mx-auto lg:container">
+  <main class="margin-section wrapper mx-auto lg:container">
     <h2>
       <span class="capitalize">{{ query.replace(/_/g, ' ') }}</span
       >&nbsp;

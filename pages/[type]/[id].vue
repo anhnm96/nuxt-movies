@@ -12,14 +12,12 @@ definePageMeta({
 const route = useRoute()
 const type = (route.params.type as MediaType) || 'movie'
 const id = route.params.id as string
-// const type = computed(() => (route.params.type as MediaType) || 'movie')
-// const id = computed(() => route.params.id as string)
 
 const [item, recommendations] = await Promise.all([
   getMedia(type, id),
   getRecommendations(type, id),
 ])
-console.log(item)
+
 const tab = ref<'overview' | 'videos' | 'photos'>('overview')
 
 const externalIds = (function () {
@@ -93,7 +91,7 @@ const directors = computed(
         </button>
       </div>
       <!-- tab content -->
-      <div class="margin-y">
+      <div class="margin-section">
         <template v-if="tab === 'overview'">
           <div class="lg:container lg:mx-auto">
             <section
@@ -207,22 +205,12 @@ const directors = computed(
             </section>
           </div>
           <!-- cast -->
-          <section class="margin-y">
-            <div
-              class="mx-[.9375rem] flex items-baseline md:mx-10 xl:mx-[3.125rem]"
-            >
-              <h2 class="text-lg md:text-xl lg:text-2xl xl:text-3xl">Cast</h2>
-            </div>
-            <MediaList v-if="item.credits?.cast?.length" class="mt-4">
-              <CarouselItem
-                v-for="person in item.credits.cast"
-                :key="person.id"
-                class="inline-block w-[calc(33.33%-7.33326px)] snap-start pr-2 leading-relaxed first-of-type:ml-[.9375rem] last-of-type:mr-[.4375rem] sm:w-[calc(25%-18px)] md:first-of-type:ml-10 md:last-of-type:mr-8 lg:w-[calc(20%-14.4px)] xl:w-[calc(20%-18.4px)] xl:first-of-type:ml-[3.125rem] xl:last-of-type:mr-[2.625rem] 2xl:w-[calc(16.667%-15.33364px)]"
-              >
-                <MediaCard :item="person" type="person" />
-              </CarouselItem>
-            </MediaList>
-          </section>
+          <MediaSection
+            v-if="item.credits?.cast?.length"
+            title="Cast"
+            type="person"
+            :items="item.credits.cast"
+          />
         </template>
         <template v-if="tab === 'videos'">
           <div
@@ -270,7 +258,7 @@ const directors = computed(
                 </div>
               </div>
             </section>
-            <section class="margin-y">
+            <section class="margin-section">
               <div class="flex items-baseline">
                 <h2 class="text-lg md:text-xl lg:text-2xl xl:text-3xl">
                   Posters
@@ -297,21 +285,10 @@ const directors = computed(
       </div>
     </section>
     <!-- recommendations -->
-    <section class="margin-y">
-      <div class="mx-[.9375rem] flex items-baseline md:mx-10 xl:mx-[3.125rem]">
-        <h2 class="text-lg md:text-xl lg:text-2xl xl:text-3xl">
-          More Like This
-        </h2>
-      </div>
-      <MediaList class="mt-4">
-        <CarouselItem
-          v-for="media in recommendations.results"
-          :key="media.id"
-          class="inline-block w-[calc(33.33%-7.33326px)] snap-start pr-2 leading-relaxed first-of-type:ml-[.9375rem] last-of-type:mr-[.4375rem] sm:w-[calc(25%-18px)] md:first-of-type:ml-10 md:last-of-type:mr-8 lg:w-[calc(20%-14.4px)] xl:w-[calc(20%-18.4px)] xl:first-of-type:ml-[3.125rem] xl:last-of-type:mr-[2.625rem] 2xl:w-[calc(16.667%-15.33364px)]"
-        >
-          <MediaCard :item="media" :type="type" />
-        </CarouselItem>
-      </MediaList>
-    </section>
+    <MediaSection
+      title="More Like This"
+      :type="type"
+      :items="recommendations.results"
+    />
   </main>
 </template>

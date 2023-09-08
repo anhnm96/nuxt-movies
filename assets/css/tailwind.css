@@ -56,7 +56,7 @@ Not supports in Firefox and IE */
     @apply px-4 md:px-10 xl:px-14;
   }
 
-  .margin-y {
+  .margin-section {
     @apply mt-6 md:mt-7 lg:mt-9 xl:mt-12;
   }
 
