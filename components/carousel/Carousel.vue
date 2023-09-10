@@ -236,7 +236,7 @@ onBeforeUnmount(() => {
       ref="elRef"
       class="carousel scroll-snap"
       :class="itemsClass"
-      @pointerdown="pointerStart"
+      @pointerdown.capture="pointerStart"
     >
       <slot
         :active-index="activeIndex"

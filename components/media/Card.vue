@@ -10,7 +10,7 @@ defineProps<{
 
 <template>
   <template v-if="instanceOf<Media>(item, 'overview')">
-    <NuxtLink class="group" :to="`/${type}/${item.id}`">
+    <NuxtLink draggable="false" class="group" :to="`/${type}/${item.id}`">
       <div
         class="relative h-0 overflow-hidden pt-[150%] transition-transform duration-500 ease-in-out group-hover:scale-[1.03]"
       >
@@ -18,6 +18,7 @@ defineProps<{
           class="absolute left-0 top-0 block h-full w-full"
           :src="`${TMDB_IMAGE_BASE}/w370_and_h556_bestv2${item.poster_path}`"
           :alt="item.title || item.name"
+          draggable="false"
         />
       </div>
       <p class="mt-2.5 truncate">{{ item.title || item.name }}</p>
@@ -30,7 +31,7 @@ defineProps<{
     </NuxtLink>
   </template>
   <template v-if="instanceOf<Person>(item, 'gender')">
-    <NuxtLink class="group" :to="`/item/${item.id}`">
+    <NuxtLink draggable="false" class="group" :to="`/item/${item.id}`">
       <div
         class="relative h-0 overflow-hidden pt-[150%] transition-transform duration-500 ease-in-out group-hover:scale-[1.03]"
       >
@@ -39,6 +40,7 @@ defineProps<{
           class="absolute left-0 top-0 block h-full w-full"
           :src="`${TMDB_IMAGE_BASE}/w370_and_h556_bestv2${item.profile_path}`"
           :alt="item.name"
+          draggable="false"
         />
         <div
           v-else
