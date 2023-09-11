@@ -49,3 +49,26 @@ export function getRecommendations(
 ): Promise<PageResult<Media>> {
   return fetchTMDB(`${type}/${id}/recommendations`, { page })
 }
+
+/**
+ * Get genre list
+ */
+export function getGenreList(
+  media: string,
+): Promise<{ name: string; id: number }[]> {
+  return fetchTMDB(`genre/${media}/list`).then((res) => res.genres)
+}
+
+/**
+ * Discover media by genre
+ */
+export function getMediaByGenre(
+  media: string,
+  genre: string,
+  page = 1,
+): Promise<PageResult<Media>> {
+  return fetchTMDB(`discover/${media}`, {
+    with_genres: genre,
+    page,
+  })
+}

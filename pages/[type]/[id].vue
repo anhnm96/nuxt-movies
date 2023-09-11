@@ -149,14 +149,14 @@ const directors = computed(
                     <p>Genre</p>
 
                     <p class="flex flex-wrap gap-1">
-                      <a
+                      <NuxtLink
                         v-for="genre of item.genres"
                         :key="genre.id"
                         :to="`/genre/${genre.id}/${type}`"
                         class="rounded bg-gray-600/50 px-2 py-1 text-sm transition hover:bg-gray-600/70"
                       >
                         {{ genre.name }}
-                      </a>
+                      </NuxtLink>
                     </p>
                   </template>
                   <template v-if="item.status">
