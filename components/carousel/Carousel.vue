@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { Pausable } from '@vueuse/core'
+import type { Pausable, Position } from '@vueuse/core'
 import { CarouselKey } from './keys'
 
 const props = defineProps({
@@ -46,6 +46,8 @@ provide(CarouselKey, { addItem })
 // functions
 const eventMoveType = ref('')
 const eventEndType = ref('')
+let startPosition: Position
+let endPosition: Position
 function pointerStart(e: PointerEvent) {
   dragging.value = true
   if (e.pointerType === 'mouse') {
@@ -55,6 +57,8 @@ function pointerStart(e: PointerEvent) {
     eventMoveType.value = 'touchmove'
     eventEndType.value = 'touchend'
   }
+  if (eventEndType.value === 'pointerup')
+    startPosition = { x: e.clientX, y: e.clientY }
   elRef.value?.classList.remove('scroll-snap')
   // stop animation
   elRef.value!.scrollLeft = elRef.value!.scrollLeft
@@ -73,7 +77,9 @@ function pointerMove(e: any) {
   elRef.value!.scrollLeft = slideX.value + delta.value
 }
 
-function pointerUp() {
+function pointerUp(e: any) {
+  if (eventEndType.value === 'pointerup')
+    endPosition = { x: e.clientX, y: e.clientY }
   dragging.value = false
   window.removeEventListener(eventMoveType.value, pointerMove)
   window.removeEventListener(eventEndType.value, pointerUp)
@@ -227,6 +233,15 @@ onMounted(() => {
 onBeforeUnmount(() => {
   observer.disconnect()
 })
+
+function clickCarousel(e: Event) {
+  // Prevent click event on <a> tag if we dragged carousel
+  if (
+    startPosition?.x !== endPosition?.x ||
+    startPosition?.y !== endPosition?.y
+  )
+    e.preventDefault()
+}
 </script>
 
 <template>
@@ -236,7 +251,8 @@ onBeforeUnmount(() => {
       ref="elRef"
       class="carousel scroll-snap"
       :class="itemsClass"
-      @pointerdown.capture="pointerStart"
+      @pointerdown="pointerStart"
+      @click.capture="clickCarousel"
     >
       <slot
         :active-index="activeIndex"
