@@ -48,6 +48,17 @@ const externalIds = (function () {
 const directors = computed(
   () => item.credits?.crew.filter((person) => person.job === 'Director'),
 )
+
+useHead({
+  title: `${item.name || item.title} (${item.release_date.slice(0, 4)})`,
+  meta: [
+    { name: 'description', content: item.overview },
+    {
+      property: 'og:image',
+      content: `${TMDB_IMAGE_BASE}/w370_and_h556_bestv2${item.poster_path}`,
+    },
+  ],
+})
 </script>
 
 <template>

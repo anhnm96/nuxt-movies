@@ -42,6 +42,10 @@ const [list1, list2, list3] = await Promise.all(
   QUERY_LIST[type].slice(1).map((q) => getMediaList(q.type, q.query, 1)),
 )
 const lists = computed(() => [list1, list2, list3])
+
+useHead({
+  title: type === 'movie' ? 'Movies' : 'TV Shows',
+})
 </script>
 
 <template>
