@@ -3,10 +3,15 @@ const props = defineProps({
   error: Object,
 })
 
-const message = computed(() => String(props.error?.message || ''))
 const is404 = computed(
-  () => props.error?.statusCode === 404 || message.value?.includes('404'),
+  () => props.error?.statusCode === 404 || props.error?.message.includes('404'),
 )
+const message = computed(() =>
+  is404.value ? 'This page could not be found' : 'An error occurred',
+)
+useHead({
+  title: message.value,
+})
 // eslint-disable-next-line n/prefer-global/process
 const isDev = process.dev
 </script>
@@ -16,7 +21,7 @@ const isDev = process.dev
     class="mx-auto flex h-screen max-w-md flex-col justify-center gap-4 text-center"
   >
     <div class="text-lg text-white xl:text-2xl">
-      {{ is404 ? 'This page could not be found' : 'An error occurred' }}
+      {{ message }}
     </div>
     <p class="text-lg text-gray-400/90">
       Looks like you've followed a broken link or entered a URL that doesn't
