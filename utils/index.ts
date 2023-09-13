@@ -27,3 +27,7 @@ export function numberWithCommas(number: number) {
 export function instanceOf<T>(value: any, fieldName: string): value is T {
   return fieldName in value
 }
+
+export function getRandomUUID() {
+  return Date.now().toString(36) + Math.random().toString(36).substring(2, 15)
+}
