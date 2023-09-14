@@ -2,8 +2,14 @@
 import type { Media } from 'types'
 import { TMDB_IMAGE_BASE } from '@/constants/images'
 
-defineProps<{ item: Media }>()
+const props = defineProps<{ item: Media }>()
 const { locale } = useI18n()
+const trailer = computed(() => {
+  const video = props.item.videos?.results.find((v) => v.type === 'Trailer')
+  if (!video) return ''
+  return `https://www.youtube.com/embed/${video.key}?rel=0&showinfo=0&autoplay=1`
+})
+const showModal = ref(false)
 </script>
 
 <template>
@@ -57,6 +63,7 @@ const { locale } = useI18n()
         </p>
         <button
           class="hidden items-center gap-2 rounded-sm bg-gray-400/20 px-6 py-3 font-medium transition hover:bg-gray-400/30 lg:flex"
+          @click="showModal = true"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -73,5 +80,20 @@ const { locale } = useI18n()
         </button>
       </div>
     </div>
+    <Modal v-model="showModal">
+      <button
+        class="z-100 p3 n-link bg-black:60 absolute right-1 top-1 rounded-full text-3xl"
+      >
+        <Icon name="i-carbon-close" />
+      </button>
+      <div class="aspect-video w-screen">
+        <iframe
+          allow="autoplay; encrypted-media"
+          allowfullscreen
+          :src="trailer"
+          class="h-full w-full"
+        />
+      </div>
+    </Modal>
   </div>
 </template>
