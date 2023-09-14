@@ -12,8 +12,8 @@ const name = list.find((item) => item.id === +no)?.name
 
 let page = 1
 async function fetch() {
-  const data = await getMediaByGenre(type, no, page)
-  items.push(...data.results)
+  const { data } = await getMediaByGenre(type, no, page)
+  items.push(...data.value.results)
   page++
 }
 await fetch()

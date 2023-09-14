@@ -10,8 +10,8 @@ const items = reactive<Media[]>([])
 let page = 1
 async function fetch() {
   if (query === 'trending')
-    items.push(...(await getTrending(type, page)).results)
-  else items.push(...(await getMediaList(type, query, page)).results)
+    items.push(...(await getTrending(type, page)).data.value.results)
+  else items.push(...(await getMediaList(type, query, page)).data.value.results)
   page++
 }
 await fetch()
