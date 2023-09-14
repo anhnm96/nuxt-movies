@@ -31,10 +31,18 @@ const QUERY_LIST: Record<string, QueryItem[]> = {
 const route = useRoute()
 const type = (route.params.type as MediaType) || 'movie'
 
-const popularList = await getMediaList(type, QUERY_LIST[type][0].query, 1)
-const featured = ref<Media>(popularList.results[Math.floor(Math.random() * 4)])
-getMedia('movie', featured.value.id).then((data) => (featured.value = data))
-const [list1, list2, list3] = await Promise.all(
+const { data: popularList } = await getMediaList(
+  type,
+  QUERY_LIST[type][0].query,
+  1,
+)
+const featured = ref<Media>(
+  popularList.value.results[Math.floor(Math.random() * 4)],
+)
+getMedia('movie', featured.value.id).then(
+  ({ data }) => (featured.value = data.value),
+)
+const [{ data: list1 }, { data: list2 }, { data: list3 }] = await Promise.all(
   QUERY_LIST[type].slice(1).map((q) => getMediaList(q.type, q.query, 1)),
 )
 const lists = computed(() => [list1, list2, list3])
@@ -59,7 +67,7 @@ useHead({
       :title="$t(q.title)"
       :type="type"
       :query="q.query"
-      :items="lists[index].results"
+      :items="lists[index].value.results"
     />
   </main>
 </template>

@@ -13,7 +13,7 @@ const route = useRoute()
 const type = (route.params.type as MediaType) || 'movie'
 const id = route.params.id as string
 
-const [item, recommendations] = await Promise.all([
+const [{ data: item }, { data: recommendations }] = await Promise.all([
   getMedia(type, id),
   getRecommendations(type, id),
 ])
@@ -21,21 +21,22 @@ const [item, recommendations] = await Promise.all([
 const tab = ref<'overview' | 'videos' | 'photos'>('overview')
 
 const directors = computed(
-  () => item.credits?.crew.filter((person) => person.job === 'Director'),
+  () => item.value.credits?.crew.filter((person) => person.job === 'Director'),
 )
 
 const releaseYear = computed(() => {
-  const date = item.release_date ? item.release_date : item.first_air_date
+  const date = item.value.release_date ? item.value.release_date : item.value.first_air_date
   return date?.slice(0, 4)
 })
 useHead({
-  title: `${item.name || item.title} (${releaseYear.value})`,
+  title: `${
+    item.value.name || item.value.title
+  } (${item.value.release_date!.slice(0, 4)})`,
   meta: [
-    { name: 'description', content: item.overview },
-    { property: 'og:description', content: item.overview },
+    { name: 'description', content: item.value.overview },
     {
       property: 'og:image',
-      content: `${TMDB_IMAGE_BASE}/w370_and_h556_bestv2${item.poster_path}`,
+      content: `${TMDB_IMAGE_BASE}/w370_and_h556_bestv2${item.value.poster_path}`,
     },
   ],
 })
