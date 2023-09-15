@@ -4,6 +4,8 @@ import { TMDB_IMAGE_BASE } from '@/constants/images'
 
 const props = defineProps<{ item: Media }>()
 const { locale } = useI18n()
+const route = useRoute()
+const type = route.params.type || 'movie'
 const trailer = computed(() => {
   const video = props.item.videos?.results.find((v) => v.type === 'Trailer')
   if (!video) return ''
@@ -42,7 +44,9 @@ const showModal = ref(false)
       class="absolute bottom-0 left-0 right-0 flex flex-col justify-center bg-gradient-to-t from-black from-15% via-black/75 to-transparent p-4 md:px-14 md:py-8 lg:top-0 lg:w-2/3 lg:bg-gradient-to-r lg:from-0% lg:via-black"
     >
       <div class="space-y-3 md:space-y-6 lg:w-[65%]">
-        <h1>{{ item.title }}</h1>
+        <h1>
+          <NuxtLink :to="`${type}/${item.id}`">{{ item.title }}</NuxtLink>
+        </h1>
         <div
           class="flex flex-col gap-3 text-sm text-gray-400 md:flex-row md:items-center"
         >
@@ -62,31 +66,20 @@ const showModal = ref(false)
           {{ item.overview }}
         </p>
         <button
+          v-if="trailer"
           class="hidden items-center gap-2 rounded-sm bg-gray-400/20 px-6 py-3 font-medium transition hover:bg-gray-400/30 lg:flex"
           @click="showModal = true"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="#fff"
-            class="mb-[3px]"
-            aria-hidden="true"
-          >
-            <path d="M3 22v-20l18 10-18 10z" />
-          </svg>
+          <Icon class="mb-0.5" name="carbon:play-filled-alt" />
           <span>Watch Trailer</span>
         </button>
       </div>
     </div>
-    <Modal v-model="showModal">
-      <button
-        class="z-100 p3 n-link bg-black:60 absolute right-1 top-1 rounded-full text-3xl"
-      >
+    <Modal v-slot="{ close }" v-model="showModal">
+      <button class="z-100 fixed right-1 top-1 p-3 text-3xl" @click="close">
         <Icon name="i-carbon-close" />
       </button>
-      <div class="aspect-video w-screen">
+      <div class="aspect-video w-[80vw]">
         <iframe
           allow="autoplay; encrypted-media"
           allowfullscreen
