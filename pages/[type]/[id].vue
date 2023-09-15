@@ -26,6 +26,7 @@ const externalIds = (function () {
   for (const [key, value] of Object.entries(item.external_ids)) {
     const id = key.substring(0, key.length - 3)
     let link
+    if (!value) break
     if (id === 'imdb') {
       link = `https://imdb.com/title/${value}`
     } else if (id === 'wikidata') {
@@ -40,7 +41,9 @@ const externalIds = (function () {
       icon: `simple-icons:${id}`,
     })
   }
-  res.push({ id: 'homepage', link: item.homepage, icon: 'i-ph-link-simple' })
+
+  if (item.homepage)
+    res.push({ id: 'homepage', link: item.homepage, icon: 'i-ph-link-simple' })
 
   return res
 })()
