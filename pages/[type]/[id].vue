@@ -30,9 +30,9 @@ const externalIds = (function () {
       link = `https://imdb.com/title/${value}`
     } else if (id === 'wikidata') {
       link = `https://wikidata.org/wiki/${value}`
-    } else {
+    } else if (['facebook', 'twitter'].includes(id)) {
       link = `https://${id}.com/${value}`
-    }
+    } else break
 
     res.push({
       id,
@@ -49,8 +49,12 @@ const directors = computed(
   () => item.credits?.crew.filter((person) => person.job === 'Director'),
 )
 
+const releaseYear = computed(() => {
+  const date = item.release_date ? item.release_date : item.first_air_date
+  return date?.slice(0, 4)
+})
 useHead({
-  title: `${item.name || item.title} (${item.release_date.slice(0, 4)})`,
+  title: `${item.name || item.title} (${releaseYear.value})`,
   meta: [
     { name: 'description', content: item.overview },
     {
@@ -118,10 +122,10 @@ useHead({
                 <ul
                   class="grid grid-cols-[min-content_1fr] gap-x-6 gap-y-3 lg:grid-cols-[auto_1fr_auto_1fr]"
                 >
-                  <template v-if="item.release_date">
+                  <template v-if="releaseYear">
                     <li class="contents">
                       <p>Release Date</p>
-                      <p>{{ item.release_date }}</p>
+                      <p>{{ releaseYear }}</p>
                     </li>
                   </template>
                   <template v-if="item.runtime">
@@ -297,6 +301,7 @@ useHead({
     </section>
     <!-- recommendations -->
     <MediaSection
+      v-if="recommendations.results.length"
       title="More Like This"
       :type="type"
       :items="recommendations.results"

@@ -10,9 +10,11 @@ export interface Media {
   overview: string
   popularity: number
   poster_path: string
-  release_date: string
+  release_date?: string
+  first_air_date?: string
   title: string
   name?: string
+  number_of_seasons?: number
   video: boolean
   vote_average: number
   vote_count: number

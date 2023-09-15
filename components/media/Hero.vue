@@ -6,12 +6,20 @@ const props = defineProps<{ item: Media }>()
 const { locale } = useI18n()
 const route = useRoute()
 const type = route.params.type || 'movie'
+const id = route.params.id
 const trailer = computed(() => {
   const video = props.item.videos?.results.find((v) => v.type === 'Trailer')
   if (!video) return ''
   return `https://www.youtube.com/embed/${video.key}?rel=0&showinfo=0&autoplay=1`
 })
 const showModal = ref(false)
+
+const releaseYear = computed(() => {
+  const date = props.item.release_date
+    ? props.item.release_date
+    : props.item.first_air_date
+  return date?.slice(0, 4)
+})
 </script>
 
 <template>
@@ -44,8 +52,13 @@ const showModal = ref(false)
       class="absolute bottom-0 left-0 right-0 flex flex-col justify-center bg-gradient-to-t from-black from-15% via-black/75 to-transparent p-4 md:px-14 md:py-8 lg:top-0 lg:w-2/3 lg:bg-gradient-to-r lg:from-0% lg:via-black"
     >
       <div class="space-y-3 md:space-y-6 lg:w-[65%]">
-        <h1>
-          <NuxtLink :to="`${type}/${item.id}`">{{ item.title }}</NuxtLink>
+        <h1 v-if="id">
+          {{ item.title || item.name }}
+        </h1>
+        <h1 v-else>
+          <NuxtLink :to="`${type}/${item.id}`">
+            {{ item.title || item.name }}
+          </NuxtLink>
         </h1>
         <div
           class="flex flex-col gap-3 text-sm text-gray-400 md:flex-row md:items-center"
@@ -58,8 +71,11 @@ const showModal = ref(false)
             </p>
           </div>
           <div class="flex gap-3">
-            <div>{{ item.release_date.slice(0, 4) }}</div>
-            <div>{{ formatTime(item.runtime!) }}</div>
+            <div>{{ releaseYear }}</div>
+            <div v-if="item.runtime">{{ formatTime(item.runtime) }}</div>
+            <div v-if="item.number_of_seasons">
+              Season {{ item.number_of_seasons }}
+            </div>
           </div>
         </div>
         <p class="hidden md:line-clamp-3">

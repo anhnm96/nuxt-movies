@@ -27,7 +27,9 @@ const isDev = process.dev
       Looks like you've followed a broken link or entered a URL that doesn't
       exist on this site.
     </p>
-    <pre v-if="isDev" class="text-left">{{ error }}</pre>
+    <pre v-if="isDev" class="whitespace-break-spaces text-left">{{
+      error
+    }}</pre>
     <p class="text-lg">
       <span class="text-gray-400/90">Back to our&nbsp;</span>
       <NuxtLink to="/" class="text-white underline opacity-100"
