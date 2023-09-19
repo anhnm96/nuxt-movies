@@ -1,7 +1,13 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/i18n', '@vueuse/nuxt', 'nuxt-icon'],
+  modules: [
+    '@nuxtjs/tailwindcss',
+    '@nuxtjs/i18n',
+    '@vueuse/nuxt',
+    'nuxt-icon',
+    '@pinia/nuxt',
+  ],
   runtimeConfig: {
     tmdbApiKey: '',
   },

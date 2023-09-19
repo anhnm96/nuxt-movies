@@ -31,3 +31,16 @@ export function instanceOf<T>(value: any, fieldName: string): value is T {
 export function getRandomUUID() {
   return Date.now().toString(36) + Math.random().toString(36).substring(2, 15)
 }
+
+export function debounce(func: () => void, delay = 0) {
+  let timer: NodeJS.Timeout
+  return (...args: any) => {
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      // eslint-disable-next-line @typescript-eslint/no-invalid-this
+      func.apply(this, args)
+    }, delay)
+  }
+}

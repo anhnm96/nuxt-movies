@@ -64,3 +64,14 @@ Not supports in Firefox and IE */
     @apply transition-colors duration-300 ease-linear;
   }
 }
+
+/* slide down */
+.slidedown-leave-active,
+.slidedown-enter-active {
+  transition: 0.3s;
+}
+
+.slidedown-enter-from,
+.slidedown-leave-to {
+  transform: translateY(-100%);
+}

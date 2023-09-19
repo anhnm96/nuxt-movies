@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { useSearch } from '@/stores/search'
+
+const searchStore = useSearch()
 const navLinks = [
   { name: 'Home', icon: 'i-ph-house', url: '/' },
   { name: 'Movies', icon: 'i-ph-film-strip', url: '/movie' },
   { name: 'TV Shows', icon: 'i-ph-television-simple', url: '/tv' },
-  { name: 'Search', icon: 'i-ph-magnifying-glass', url: '/search' },
 ]
 </script>
 
@@ -16,6 +18,7 @@ const navLinks = [
         <NuxtLink
           v-slot="{ isActive }"
           :to="link.url"
+          :aria-label="link.name"
           class="flex justify-center py-2 text-3xl lg:p-5"
         >
           <Icon
@@ -23,6 +26,24 @@ const navLinks = [
             :class="[isActive && 'text-primary']"
           />
         </NuxtLink>
+      </li>
+      <li class="w-full">
+        <button
+          class="flex justify-center py-2 text-3xl lg:p-5"
+          aria-label="Search"
+          aria-haspopup="true"
+          :aria-expanded="searchStore.searchOpen"
+          @click="searchStore.toggleSearch(true)"
+        >
+          <Icon
+            :name="
+              searchStore.searchOpen
+                ? `i-ph-magnifying-glass-fill`
+                : 'i-ph-magnifying-glass'
+            "
+            :class="[searchStore.searchOpen && 'text-primary']"
+          />
+        </button>
       </li>
     </ul>
   </nav>

@@ -1,4 +1,7 @@
 <script setup>
+import { useSearch } from '@/stores/search'
+
+const searchStore = useSearch()
 useHead({
   htmlAttrs: {
     lang: 'en',
@@ -46,6 +49,9 @@ useHead({
   <div
     class="scrollbar grid grid-rows-[1fr_max-content] lg:grid-cols-[max-content_1fr]"
   >
+    <transition name="slidedown">
+      <SearchForm v-if="searchStore.searchOpen" />
+    </transition>
     <TheNavbar />
     <div>
       <NuxtPage />
