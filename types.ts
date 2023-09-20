@@ -15,6 +15,7 @@ export interface Media {
   title: string
   name?: string
   number_of_seasons?: number
+  media_type?: MediaType
   video: boolean
   vote_average: number
   vote_count: number

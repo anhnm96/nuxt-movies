@@ -26,7 +26,11 @@ function goBack() {
   searchStore.toggleSearch(false)
 }
 
-function unFocus() {}
+function unFocus() {
+  if (route.name !== 'search') {
+    searchStore.toggleSearch(false)
+  }
+}
 </script>
 
 <template>
@@ -37,6 +41,7 @@ function unFocus() {}
         <input
           id="search"
           v-model.trim="query"
+          v-focus
           name="search"
           type="text"
           placeholder="Search for a movie, tv show or person..."

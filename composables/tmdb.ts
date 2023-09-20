@@ -72,3 +72,11 @@ export function getMediaByGenre(
     page,
   })
 }
+
+/**
+ * Search (searches movies, tv and people)
+ */
+
+export function searchShows(query: string, page = 1) {
+  return fetchTMDB('search/multi', { query, page, include_adult: false })
+}
