@@ -14,33 +14,32 @@ export default {
 const route = useRoute()
 
 const items = ref<Media[]>([])
-let page = 1
-let totalPages = 1
+const page = ref(1)
+const totalPages = ref(1)
 function reset() {
   items.value = []
-  page = 1
-  totalPages = 1
+  page.value = 1
+  totalPages.value = 0
 }
 
 onBeforeRouteUpdate(async (to, from) => {
-  console.log(to.query.q, from.query.q)
   reset()
   await fetch(to.query.q)
 })
 
 async function fetch(query = route.query.q) {
-  console.log('fetch', query, page, totalPages)
-  if (page > totalPages) return
-  const data = await searchShows(query, page)
+  if (!query || (totalPages.value !== 0 && page.value > totalPages.value))
+    return
+  const data = await searchShows(query as string, page.value)
   if (!data.results.length) {
     reset()
   } else {
     items.value.push(...data.results)
-    page++
-    totalPages = data.total_pages
+    page.value++
+    totalPages.value = data.total_pages
   }
 }
-console.log('mounted')
+
 await fetch()
 </script>
 
@@ -57,6 +56,6 @@ await fetch()
         :type="item.media_type!"
       />
     </div>
-    <InfiniteLoad v-if="totalPages > 1" @infinite-load="fetch" />
+    <InfiniteLoad v-if="page <= totalPages" @infinite-load="fetch" />
   </main>
 </template>
