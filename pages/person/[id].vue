@@ -22,38 +22,6 @@ function formatContent(str: string) {
     .map((section) => `<p>${section}</p>`)
     .join('<br>')
 }
-
-const externalIds = (function () {
-  if (!person.external_ids) return []
-  const res = []
-  for (const [key, value] of Object.entries(person.external_ids)) {
-    const id = key.substring(0, key.length - 3)
-    let link
-    if (!value) continue
-    if (id === 'imdb') {
-      link = `https://imdb.com/title/${value}`
-    } else if (id === 'wikidata') {
-      link = `https://wikidata.org/wiki/${value}`
-    } else if (['facebook', 'twitter'].includes(id)) {
-      link = `https://${id}.com/${value}`
-    } else continue
-
-    res.push({
-      id,
-      link,
-      icon: `simple-icons:${id}`,
-    })
-  }
-
-  if (person.homepage)
-    res.push({
-      id: 'homepage',
-      link: person.homepage,
-      icon: 'i-ph-link-simple',
-    })
-
-  return res
-})()
 </script>
 
 <template>
@@ -67,7 +35,10 @@ const externalIds = (function () {
         />
       </div>
       <div>
-        <div v-html="formatContent(person.biography)"></div>
+        <div
+          v-if="person.biography"
+          v-html="formatContent(person.biography)"
+        ></div>
         <ul class="margin-section grid grid-cols-[auto_1fr] gap-x-6 gap-y-3">
           <li v-if="person.known_for_department" class="contents">
             <p>Known For</p>
@@ -82,19 +53,11 @@ const externalIds = (function () {
             <p>{{ person.place_of_birth }}</p>
           </li>
         </ul>
-        <ul class="margin-section -ml-[0.6875rem] flex">
-          <li v-for="e in externalIds" :key="e.id">
-            <a
-              class="text-anim inline-flex h-11 w-11 items-center justify-center hover:text-primary"
-              :href="e.link"
-              target="_blank"
-              :aria-label="`Link to ${e.id} account`"
-              rel="noopener noreferrer"
-            >
-              <Icon :name="e.icon" size="1.375em" />
-            </a>
-          </li>
-        </ul>
+        <ExternalLinks
+          v-if="person.external_ids"
+          class="margin-section"
+          :ids="person.external_ids"
+        />
       </div>
     </div>
   </main>

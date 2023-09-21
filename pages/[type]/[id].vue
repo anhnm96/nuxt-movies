@@ -20,34 +20,6 @@ const [item, recommendations] = await Promise.all([
 
 const tab = ref<'overview' | 'videos' | 'photos'>('overview')
 
-const externalIds = (function () {
-  if (!item.external_ids) return []
-  const res = []
-  for (const [key, value] of Object.entries(item.external_ids)) {
-    const id = key.substring(0, key.length - 3)
-    let link
-    if (!value) break
-    if (id === 'imdb') {
-      link = `https://imdb.com/title/${value}`
-    } else if (id === 'wikidata') {
-      link = `https://wikidata.org/wiki/${value}`
-    } else if (['facebook', 'twitter'].includes(id)) {
-      link = `https://${id}.com/${value}`
-    } else break
-
-    res.push({
-      id,
-      link,
-      icon: `simple-icons:${id}`,
-    })
-  }
-
-  if (item.homepage)
-    res.push({ id: 'homepage', link: item.homepage, icon: 'i-ph-link-simple' })
-
-  return res
-})()
-
 const directors = computed(
   () => item.credits?.crew.filter((person) => person.job === 'Director'),
 )
@@ -206,19 +178,10 @@ useHead({
                     </li>
                   </template>
                 </ul>
-                <ul class="-ml-[0.6875rem] flex">
-                  <li v-for="e in externalIds" :key="e.id">
-                    <a
-                      class="text-anim inline-flex h-11 w-11 items-center justify-center hover:text-primary"
-                      :href="e.link"
-                      target="_blank"
-                      :aria-label="`Link to ${e.id} account`"
-                      rel="noopener noreferrer"
-                    >
-                      <Icon :name="e.icon" size="1.375em" />
-                    </a>
-                  </li>
-                </ul>
+                <ExternalLinks
+                  v-if="item.external_ids"
+                  :ids="item.external_ids"
+                />
               </div>
             </section>
           </div>

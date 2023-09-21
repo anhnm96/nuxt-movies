@@ -6,19 +6,11 @@ function updateLocale(event: Event) {
   window.location.reload()
 }
 
-const socialLinks = [
-  {
-    id: 'twitter',
-    link: 'https://twitter.com/anhnm896',
-    icon: 'simple-icons:twitter',
-  },
-  {
-    id: 'github',
-    link: 'https://github.com/xiaosasori',
-    icon: 'simple-icons:github',
-  },
-  { id: 'email', link: 'mailto:anhnm896@gmail.com', icon: 'octicon:mail-24' },
-]
+const socialLinks = {
+  twitter_id: 'anhnm896',
+  github_id: 'xiaosasori',
+  email: 'anhnm896@gmail.com',
+}
 </script>
 
 <template>
@@ -99,19 +91,7 @@ const socialLinks = [
       </a>
     </div>
     <div class="flex items-center gap-4">
-      <ul class="-ml-[0.6875rem] flex text-base">
-        <li v-for="link in socialLinks" :key="link.id">
-          <a
-            class="text-anim inline-flex h-11 w-11 items-center justify-center hover:text-primary"
-            :href="link.link"
-            :target="link.id === 'email' ? '' : '_blank'"
-            :aria-label="`Link to ${link.id} account`"
-            rel="noopener noreferrer"
-          >
-            <Icon :name="link.icon" size="1.375em" />
-          </a>
-        </li>
-      </ul>
+      <ExternalLinks class="text-base" :ids="socialLinks" />
       <div class="text-base text-white">
         <label for="langSwitcher">Language: </label>
         <select
