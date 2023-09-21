@@ -5,7 +5,7 @@ const route = useRoute()
 const type = (route.params.type as MediaType) || 'movie'
 const no = route.params.no as string
 
-const items: Media[] = reactive([])
+const items = reactive<Media[]>([])
 
 const list = await getGenreList(type)
 const name = list.find((item) => item.id === +no)?.name

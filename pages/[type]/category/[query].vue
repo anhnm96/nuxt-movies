@@ -5,7 +5,7 @@ const route = useRoute()
 const type = (route.params.type as MediaType) || 'movie'
 const query = route.params.query as string
 
-const items: Media[] = reactive([])
+const items = reactive<Media[]>([])
 
 let page = 1
 async function fetch() {

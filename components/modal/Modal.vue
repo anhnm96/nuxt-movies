@@ -108,7 +108,7 @@ export default defineComponent({
         class="absolute inset-0 bg-black bg-opacity-70"
         aria-hidden="true"
         @click="!persistent && close()"
-      />
+      ></div>
     </transition>
 
     <transition
