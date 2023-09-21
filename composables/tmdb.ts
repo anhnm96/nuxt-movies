@@ -1,4 +1,4 @@
-import type { Media, MediaType, PageResult } from '../types'
+import type { Media, MediaType, PageResult, Person } from '../types'
 
 const apiBaseUrl = '/api'
 export async function fetchTMDB(
@@ -76,7 +76,16 @@ export function getMediaByGenre(
 /**
  * Search (searches movies, tv and people)
  */
-
 export function searchShows(query: string, page = 1) {
   return fetchTMDB('search/multi', { query, page, include_adult: false })
+}
+
+/**
+ * Get person (single)
+ */
+export function getPerson(id: string): Promise<Person> {
+  return fetchTMDB(`person/${id}`, {
+    append_to_response: 'images,combined_credits,external_ids',
+    include_image_language: 'en',
+  })
 }

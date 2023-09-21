@@ -79,6 +79,20 @@ export interface Person {
   credit_id: string
   order: number
   job?: string
+  // details
+  also_known_as?: string[]
+  birthday?: string
+  place_of_birth?: string
+  homepage?: string
+  biography?: string
+  external_ids?: ExternalIds
+  combined_credits?: {
+    cast?: Media[]
+    crew?: Media[]
+  }
+  images?: {
+    profiles: Image[]
+  }
 }
 
 export interface Video {
