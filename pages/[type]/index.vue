@@ -31,10 +31,6 @@ const QUERY_LIST: Record<string, QueryItem[]> = {
 const route = useRoute()
 const type = (route.params.type as MediaType) || 'movie'
 
-useHead({
-  title: type === 'movie' ? 'Movies' : 'TV Shows',
-})
-
 const popularList = await getMediaList(type, QUERY_LIST[type][0].query, 1)
 const featured = ref<Media>(popularList.results[Math.floor(Math.random() * 4)])
 getMedia('movie', featured.value.id).then((data) => (featured.value = data))

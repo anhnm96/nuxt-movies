@@ -32,6 +32,7 @@ useHead({
   title: `${item.name || item.title} (${releaseYear.value})`,
   meta: [
     { name: 'description', content: item.overview },
+    { property: 'og:description', content: item.overview },
     {
       property: 'og:image',
       content: `${TMDB_IMAGE_BASE}/w370_and_h556_bestv2${item.poster_path}`,

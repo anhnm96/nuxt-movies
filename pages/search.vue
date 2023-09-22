@@ -41,6 +41,9 @@ async function fetch(query = route.query.q) {
 }
 
 await fetch()
+useHead({
+  title: route.query.q as string,
+})
 </script>
 
 <template>

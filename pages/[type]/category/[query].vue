@@ -15,15 +15,17 @@ async function fetch() {
   page++
 }
 await fetch()
+const title = `${query[0].toUpperCase() + query.replace(/_/g, ' ').slice(1)} ${
+  type === 'tv' ? 'TV' : 'Movies'
+}`
+useHead({
+  title,
+})
 </script>
 
 <template>
   <main class="margin-section wrapper mx-auto lg:container">
-    <h2>
-      <span class="capitalize">{{ query.replace(/_/g, ' ') }}</span
-      >&nbsp;
-      <span>{{ type === 'tv' ? 'TV' : 'Movies' }}</span>
-    </h2>
+    <h2>{{ title }}</h2>
     <div
       class="mt-4 grid grid-cols-[repeat(auto-fit,_minmax(208px,_1fr))] gap-2 xl:mt-5"
     >

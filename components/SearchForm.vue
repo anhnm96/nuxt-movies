@@ -37,7 +37,7 @@ function unFocus() {
   <div class="fixed left-0 right-0 top-0 z-10 lg:left-[70px]">
     <form @submit.prevent>
       <label class="sr-only" for="search">Search</label>
-      <div class="flex bg-neutral-900 text-white">
+      <div class="flex bg-neutral-800 text-white">
         <input
           id="search"
           v-model.trim="query"
@@ -45,7 +45,7 @@ function unFocus() {
           name="search"
           type="text"
           placeholder="Search for a movie, tv show or person..."
-          class="w-full bg-transparent px-8 py-5 outline-none"
+          class="wrapper w-full bg-transparent py-5 outline-none"
           @keyup="goToRoute"
           @blur="unFocus"
         />

@@ -9,9 +9,10 @@ useHead({
   title: person.name,
   meta: [
     { name: 'description', content: person.biography || person.name },
+    { property: 'og:description', content: person.biography || person.name },
     {
       property: 'og:image',
-      content: `${TMDB_IMAGE_BASE}/w55${person.profile_path}`,
+      content: `${TMDB_IMAGE_BASE}/w500${person.profile_path}`,
     },
   ],
 })
@@ -35,6 +36,8 @@ function formatContent(str: string) {
         />
       </div>
       <div>
+        <h2>{{ person.name }}</h2>
+        <br />
         <div
           v-if="person.biography"
           v-html="formatContent(person.biography)"

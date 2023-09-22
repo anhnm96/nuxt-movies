@@ -17,12 +17,16 @@ async function fetch() {
   page++
 }
 await fetch()
+const title = `${type === 'movie' ? 'Movie' : 'TV'} Genre: ${name}`
+useHead({
+  title,
+})
 </script>
 
 <template>
   <main class="margin-section wrapper mx-auto lg:container">
     <h2 class="capitalize">
-      {{ `${type === 'movie' ? 'Movie' : 'TV'} genre: ${name}` }}
+      {{ title }}
     </h2>
     <div
       class="mt-4 grid grid-cols-[repeat(auto-fit,_minmax(208px,_1fr))] gap-2 xl:mt-5"
