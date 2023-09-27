@@ -246,7 +246,14 @@ function clickCarousel(e: Event) {
 
 <template>
   <div @mouseenter="mouseEnter" @mouseleave="mouseLeave">
-    <slot name="header" :prev="prev" :next="next" />
+    <slot
+      name="header"
+      :active-index="activeIndex"
+      :prev="prev"
+      :next="next"
+      :has-prev="hasPrev"
+      :has-next="hasNext"
+    />
     <div
       ref="elRef"
       class="carousel scroll-snap"
