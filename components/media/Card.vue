@@ -6,6 +6,32 @@ defineProps<{
   item: T
   type: MediaType | 'person'
 }>()
+
+function finishLoading(el: HTMLElement) {
+  el.parentElement!.classList.remove('lazy-img-wrapper')
+  el.parentElement!.classList.add('loaded')
+}
+
+function load(e: Event) {
+  finishLoading(e.target as HTMLElement)
+}
+
+const vLazyload = {
+  mounted(el: HTMLElement) {
+    el.parentElement!.classList.remove('loaded')
+    el.parentElement!.classList.add('lazy-img-wrapper')
+
+    el.addEventListener('load', load)
+  },
+  beforeUpdate(el: HTMLImageElement) {
+    if (el.complete) {
+      finishLoading(el)
+    }
+  },
+  beforeUnmount(el: HTMLElement) {
+    el.removeEventListener('load', load)
+  },
+}
 </script>
 
 <template>
@@ -15,10 +41,12 @@ defineProps<{
         class="relative h-0 overflow-hidden pt-[150%] transition-transform duration-500 ease-in-out group-hover:scale-[1.03]"
       >
         <img
-          class="absolute left-0 top-0 block h-full w-full"
+          v-lazyload
+          class="lazyload absolute left-0 top-0 block h-full w-full"
           :src="`${TMDB_IMAGE_BASE}/w370_and_h556_bestv2${item.poster_path}`"
           :alt="item.title || item.name"
           draggable="false"
+          loading="lazy"
         />
       </div>
       <p class="mt-2.5 truncate">{{ item.title || item.name }}</p>
@@ -37,10 +65,12 @@ defineProps<{
       >
         <img
           v-if="item.profile_path"
-          class="absolute left-0 top-0 block h-full w-full"
+          v-lazyload
+          class="lazyload absolute left-0 top-0 block h-full w-full"
           :src="`${TMDB_IMAGE_BASE}/w370_and_h556_bestv2${item.profile_path}`"
           :alt="item.name"
           draggable="false"
+          loading="lazy"
         />
         <div
           v-else
@@ -56,3 +86,26 @@ defineProps<{
     </NuxtLink>
   </template>
 </template>
+
+<style scoped>
+.lazy-img-wrapper {
+  position: relative;
+  background: theme('colors.neutral.800/20');
+}
+
+.lazy-img-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('@/assets/images/loader.svg') center no-repeat;
+}
+
+.lazyload {
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.loaded .lazyload {
+  opacity: 1;
+}
+</style>
