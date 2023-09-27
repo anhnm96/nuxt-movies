@@ -56,7 +56,7 @@ useHead({
           ]"
           @click="tab = 'overview'"
         >
-          Overview
+          {{ $t('Overview') }}
         </button>
         <button
           class="text-anim flex-auto py-3 text-sm font-medium uppercase xl:inline-block xl:flex-initial xl:text-xl"
@@ -67,7 +67,7 @@ useHead({
           ]"
           @click="tab = 'videos'"
         >
-          Videos
+          {{ $t('Videos') }}
         </button>
         <button
           class="text-anim flex-auto py-3 text-sm font-medium uppercase xl:inline-block xl:flex-initial xl:text-xl"
@@ -78,7 +78,7 @@ useHead({
           ]"
           @click="tab = 'photos'"
         >
-          Photos
+          {{ $t('Media Photos') }}
         </button>
       </div>
       <!-- tab content -->
@@ -93,26 +93,26 @@ useHead({
                 :alt="item.title"
               />
               <div class="space-y-6">
-                <h2>Storyline</h2>
+                <h2>{{ $t('Storyline') }}</h2>
                 <p>{{ item.overview }}</p>
                 <ul
                   class="grid grid-cols-[min-content_1fr] gap-x-6 gap-y-3 lg:grid-cols-[auto_1fr_auto_1fr]"
                 >
                   <template v-if="releaseYear">
                     <li class="contents">
-                      <p>Release Date</p>
+                      <p>{{ $t('Release Date') }}</p>
                       <p>{{ releaseYear }}</p>
                     </li>
                   </template>
                   <template v-if="item.runtime">
                     <li class="contents">
-                      <p>Runtime</p>
+                      <p>{{ $t('Runtime') }}</p>
                       <p>{{ formatTime(item.runtime) }}</p>
                     </li>
                   </template>
                   <template v-if="directors?.length">
                     <li class="contents">
-                      <p>Directors</p>
+                      <p>{{ $t('Director') }}</p>
                       <div class="flex flex-wrap gap-1">
                         <a
                           v-for="person of directors"
@@ -126,19 +126,18 @@ useHead({
                   </template>
                   <template v-if="item.budget">
                     <li class="contents">
-                      <p>Budget</p>
+                      <p>{{ $t('Budget') }}</p>
                       <p>${{ numberWithCommas(item.budget) }}</p>
                     </li>
                   </template>
                   <template v-if="item.revenue">
                     <li class="contents">
-                      <p>Revenue</p>
+                      <p>{{ $t('Revenue') }}</p>
                       <p>${{ numberWithCommas(item.revenue) }}</p>
                     </li>
                   </template>
                   <template v-if="item.genres?.length">
-                    <p>Genre</p>
-
+                    <p>{{ $t('Genre') }}</p>
                     <p class="flex flex-wrap gap-1">
                       <NuxtLink
                         v-for="genre of item.genres"
@@ -152,7 +151,7 @@ useHead({
                   </template>
                   <template v-if="item.status">
                     <li class="contents">
-                      <p>Status</p>
+                      <p>{{ $t('Status') }}</p>
                       <p>
                         {{ item.status }}
                       </p>
@@ -160,15 +159,15 @@ useHead({
                   </template>
                   <template v-if="item.original_language">
                     <li class="contents">
-                      <p>Language</p>
+                      <p>{{ $t('Language') }}</p>
                       <p>
-                        {{ item.original_language }}
+                        {{ formatLang(item.original_language) }}
                       </p>
                     </li>
                   </template>
                   <template v-if="item?.production_companies?.length">
                     <li class="contents">
-                      <p>Production</p>
+                      <p>{{ $t('Production') }}</p>
                       <p>
                         {{
                           item.production_companies
@@ -189,7 +188,7 @@ useHead({
           <!-- cast -->
           <MediaSection
             v-if="item.credits?.cast?.length"
-            title="Cast"
+            :title="$t('Cast')"
             type="person"
             :items="item.credits.cast"
           />
@@ -222,12 +221,17 @@ useHead({
             <section>
               <div class="flex items-baseline">
                 <h2 class="text-lg md:text-xl lg:text-2xl xl:text-3xl">
-                  Backdrops
+                  {{ $t('Backdrops') }}
                 </h2>
                 <span
                   class="ml-2.5 text-xs font-medium text-gray-400/90 md:text-sm xl:text-base"
-                  >{{ item.images?.backdrops?.length }} Images</span
                 >
+                  {{
+                    $t('{numberOfImages} Images', {
+                      numberOfImages: item.images?.backdrops?.length,
+                    })
+                  }}
+                </span>
               </div>
               <div
                 class="mt-4 grid grid-cols-[repeat(auto-fit,_minmax(250px,_1fr))] gap-2 xl:mt-5"
@@ -243,12 +247,17 @@ useHead({
             <section class="margin-section">
               <div class="flex items-baseline">
                 <h2 class="text-lg md:text-xl lg:text-2xl xl:text-3xl">
-                  Posters
+                  {{ $t('Posters') }}
                 </h2>
                 <span
                   class="ml-2.5 text-xs font-medium text-gray-400/90 md:text-sm xl:text-base"
-                  >{{ item.images?.posters?.length }} Images</span
                 >
+                  {{
+                    $t('{numberOfImages} Images', {
+                      numberOfImages: item.images?.posters?.length,
+                    })
+                  }}
+                </span>
               </div>
               <div
                 class="mt-4 grid grid-cols-[repeat(auto-fit,_minmax(208px,_1fr))] gap-2 xl:mt-5"
@@ -269,7 +278,7 @@ useHead({
     <!-- recommendations -->
     <MediaSection
       v-if="recommendations.results.length"
-      title="More Like This"
+      :title="$t('More Like This')"
       :type="type"
       :items="recommendations.results"
     />

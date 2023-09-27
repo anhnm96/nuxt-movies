@@ -1,3 +1,5 @@
+import LANGUAGES from '@/constants/languages'
+
 /**
  * Format minutes into hours and mins
  */
@@ -37,10 +39,17 @@ export function debounce(func: () => void, delay = 0) {
   return (...args: any) => {
     clearTimeout(timer)
     timer = setTimeout(() => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       // eslint-disable-next-line @typescript-eslint/no-invalid-this
       func.apply(this, args)
     }, delay)
   }
+}
+
+export function formatLang(iso: string) {
+  const fullLang = LANGUAGES.find((lang) => lang.iso_639_1 === iso)
+
+  if (fullLang) return fullLang.english_name
+
+  return iso
 }

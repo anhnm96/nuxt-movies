@@ -48,7 +48,13 @@ useHead({
 
 <template>
   <main class="margin-section wrapper mx-auto pt-16 lg:container">
-    <h2 class="capitalize">Results for: {{ route.query.q }}</h2>
+    <h2 class="capitalize">
+      {{
+        $t('Search result for: {currentSearch}', {
+          currentSearch: route.query.q,
+        })
+      }}
+    </h2>
     <div
       class="mt-4 grid grid-cols-[repeat(auto-fit,_minmax(208px,_1fr))] gap-2 xl:mt-5"
     >

@@ -32,19 +32,14 @@ const releaseYear = computed(() => {
       />
       <div
         class="absolute inset-0 grid place-items-center bg-gray-900/10 lg:hidden"
+        @click="showModal = true"
       >
-        <button class="-translate-y-1/2 p-3">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="60"
-            height="60"
-            viewBox="0 0 24 24"
-          >
-            <path
-              fill="currentColor"
-              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8s-3.59 8-8 8zm-2.5-3.5l7-4.5l-7-4.5v9z"
-            />
-          </svg>
+        <button
+          v-if="trailer"
+          :aria-label="$t('Watch Trailer')"
+          class="-translate-y-1/2 p-3"
+        >
+          <Icon name="ic:round-play-circle-outline" size="60px" />
         </button>
       </div>
     </div>
@@ -66,8 +61,13 @@ const releaseYear = computed(() => {
           <div class="flex gap-1">
             <StarsRate class="w-24" :value="item.vote_average" />
             <p>
-              {{ new Intl.NumberFormat(locale).format(item.vote_count) }}
-              Reviews
+              {{
+                $t('{numberOfReviews} Reviews', {
+                  numberOfReviews: new Intl.NumberFormat(locale).format(
+                    item.vote_count,
+                  ),
+                })
+              }}
             </p>
           </div>
           <div class="flex gap-3">
@@ -87,12 +87,16 @@ const releaseYear = computed(() => {
           @click="showModal = true"
         >
           <Icon class="mb-0.5" name="carbon:play-filled-alt" />
-          <span>Watch Trailer</span>
+          <span>{{ $t('Watch Trailer') }}</span>
         </button>
       </div>
     </div>
     <Modal v-slot="{ close }" v-model="showModal">
-      <button class="z-100 fixed right-1 top-1 p-3 text-3xl" @click="close">
+      <button
+        class="z-100 fixed right-1 top-1 p-3 text-3xl"
+        aria-label="close"
+        @click="close"
+      >
         <Icon name="i-carbon-close" />
       </button>
       <div class="aspect-video w-[80vw]">

@@ -44,15 +44,15 @@ function formatContent(str: string) {
         ></div>
         <ul class="margin-section grid grid-cols-[auto_1fr] gap-x-6 gap-y-3">
           <li v-if="person.known_for_department" class="contents">
-            <p>Known For</p>
+            <p>{{ $t('Known For') }}</p>
             <p>{{ person.known_for_department }}</p>
           </li>
           <li v-if="person.birthday" class="contents">
-            <p>Born</p>
+            <p>{{ $t('Born') }}</p>
             <p>{{ person.birthday }}</p>
           </li>
           <li v-if="person.place_of_birth" class="contents">
-            <p>Place of Birth</p>
+            <p>{{ $t('Place of Birth') }}</p>
             <p>{{ person.place_of_birth }}</p>
           </li>
         </ul>

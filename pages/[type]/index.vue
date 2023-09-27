@@ -48,7 +48,7 @@ useHead({
   <main>
     <MediaHero :item="featured" />
     <MediaSection
-      title="Popular Movies"
+      :title="$t('Popular Movies')"
       :type="type"
       :query="QUERY_LIST[type][0].query"
       :items="popularList.results"
@@ -56,7 +56,7 @@ useHead({
     <MediaSection
       v-for="(q, index) in QUERY_LIST[type].slice(1)"
       :key="q.title"
-      :title="q.title"
+      :title="$t(q.title)"
       :type="type"
       :query="q.query"
       :items="lists[index].results"

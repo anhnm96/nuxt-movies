@@ -18,7 +18,7 @@ defineProps<{
         :to="`/${type}/category/${query}`"
         class="ml-2.5 text-xs font-medium text-primary transition-opacity hover:opacity-80 md:text-sm xl:text-base"
       >
-        Explore All
+        {{ $t('Explore more') }}
       </NuxtLink>
     </div>
     <MediaList class="mt-4">

@@ -6,6 +6,13 @@ function updateLocale(event: Event) {
   window.location.reload()
 }
 
+onMounted(() => {
+  const langSwitcher = document.querySelector(
+    '#langSwitcher',
+  ) as HTMLSelectElement
+  langSwitcher.value = locale.value
+})
+
 const socialLinks = {
   twitter_id: 'anhnm896',
   github_id: 'xiaosasori',

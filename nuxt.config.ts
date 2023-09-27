@@ -22,6 +22,21 @@ export default defineNuxtConfig({
         name: 'English',
         file: 'en.json',
       },
+      {
+        code: 'de-DE',
+        name: 'Deutsch',
+        file: 'de-DE.json',
+      },
+      {
+        code: 'ja',
+        name: '日本語',
+        file: 'ja.json',
+      },
+      {
+        code: 'zh-CN',
+        name: '简体中文',
+        file: 'zh-CN.json',
+      },
     ],
     strategy: 'no_prefix',
     lazy: true,
