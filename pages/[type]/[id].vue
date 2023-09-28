@@ -88,10 +88,14 @@ useHead({
             <section
               class="wrapper grid grid-cols-[minmax(auto,25%)_1fr] gap-8 xl:gap-14"
             >
-              <img
-                :src="`${TMDB_IMAGE_BASE}/w370_and_h556_bestv2${item.poster_path}`"
-                :alt="item.title"
-              />
+              <div class="aspect-[370/556]">
+                <img
+                  v-lazyload
+                  class="lazy-img"
+                  :src="`${TMDB_IMAGE_BASE}/w370_and_h556_bestv2${item.poster_path}`"
+                  :alt="item.title"
+                />
+              </div>
               <div class="space-y-6">
                 <h2>{{ $t('Storyline') }}</h2>
                 <p>{{ item.overview }}</p>
@@ -195,7 +199,7 @@ useHead({
         </template>
         <template v-if="tab === 'videos'">
           <div
-            class="wrapper grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-5 lg:container"
+            class="wrapper grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-5 lg:container lg:mx-auto"
           >
             <div
               v-for="i of item.videos?.results"
@@ -204,7 +208,9 @@ useHead({
             >
               <div class="aspect-video">
                 <img
-                  class="w-full"
+                  v-lazyload
+                  loading="lazy"
+                  class="lazy-img w-full"
                   :src="`https://img.youtube.com/vi/${i.key}/mqdefault.jpg`"
                   :alt="i.name"
                 />
@@ -217,7 +223,7 @@ useHead({
           </div>
         </template>
         <template v-if="tab === 'photos'">
-          <div class="wrapper lg:container">
+          <div class="wrapper lg:container lg:mx-auto">
             <section>
               <div class="flex items-baseline">
                 <h2 class="text-lg md:text-xl lg:text-2xl xl:text-3xl">
@@ -236,8 +242,15 @@ useHead({
               <div
                 class="mt-4 grid grid-cols-[repeat(auto-fit,_minmax(250px,_1fr))] gap-2 xl:mt-5"
               >
-                <div v-for="i of item.images?.backdrops" :key="i.file_path">
+                <div
+                  v-for="i of item.images?.backdrops"
+                  :key="i.file_path"
+                  class="aspect-[553/300]"
+                >
                   <img
+                    v-lazyload
+                    class="lazy-img"
+                    loading="lazy"
                     :src="`${TMDB_IMAGE_BASE}/w533_and_h300_bestv2${i.file_path}`"
                     alt="photo"
                   />
@@ -262,8 +275,14 @@ useHead({
               <div
                 class="mt-4 grid grid-cols-[repeat(auto-fit,_minmax(208px,_1fr))] gap-2 xl:mt-5"
               >
-                <div v-for="i of item.images?.posters" :key="i.file_path">
+                <div
+                  v-for="i of item.images?.posters"
+                  :key="i.file_path"
+                  class="aspect-[370/556]"
+                >
                   <img
+                    v-lazyload
+                    class="lazy-img"
                     loading="lazy"
                     :src="`${TMDB_IMAGE_BASE}/w370_and_h556_bestv2${i.file_path}`"
                     alt="photo"

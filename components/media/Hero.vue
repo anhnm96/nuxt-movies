@@ -26,9 +26,10 @@ const releaseYear = computed(() => {
   <div class="relative aspect-video max-h-[60vh] w-full">
     <div class="absolute inset-0 lg:left-auto lg:w-2/3">
       <img
+        v-lazyload
         :src="`${TMDB_IMAGE_BASE}/original${item.backdrop_path}`"
-        alt="hero"
-        class="h-full w-full object-cover"
+        :alt="item.title || item.name"
+        class="lazy-img h-full w-full object-cover"
       />
       <div
         class="absolute inset-0 grid place-items-center bg-gray-900/10 lg:hidden"

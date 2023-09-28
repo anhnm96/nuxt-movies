@@ -15,6 +15,7 @@ defineProps<{
         class="relative h-0 overflow-hidden pt-[150%] transition-transform duration-500 ease-in-out group-hover:scale-[1.03]"
       >
         <img
+          v-if="item.poster_path"
           v-lazyload
           class="lazy-img absolute left-0 top-0 block h-full w-full"
           :src="`${TMDB_IMAGE_BASE}/w370_and_h556_bestv2${item.poster_path}`"
@@ -22,6 +23,12 @@ defineProps<{
           draggable="false"
           loading="lazy"
         />
+        <div
+          v-else
+          class="absolute left-0 top-0 grid h-full w-full place-items-center bg-gray-800 text-4xl"
+        >
+          <Icon name="clarity:image-line" />
+        </div>
       </div>
       <p class="mt-2.5 truncate">{{ item.title || item.name }}</p>
       <div class="flex items-baseline gap-1">
