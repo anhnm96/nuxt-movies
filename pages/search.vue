@@ -2,15 +2,17 @@
 import { useSearch } from '@/stores/search'
 import type { Media } from '@/types'
 
-const searchStore = useSearch()
+let _fromPage = '/'
 export default {
   beforeRouteEnter(to, from) {
-    searchStore.setFromPage(from.fullPath)
+    _fromPage = from.fullPath
   },
 }
 </script>
 
 <script setup lang="ts">
+const searchStore = useSearch()
+searchStore.setFromPage(_fromPage)
 const route = useRoute()
 
 const items = ref<Media[]>([])
@@ -25,6 +27,10 @@ function reset() {
 onBeforeRouteUpdate(async (to, from) => {
   reset()
   await fetch(to.query.q)
+})
+
+onBeforeRouteLeave(() => {
+  searchStore.toggleSearch(false)
 })
 
 async function fetch(query = route.query.q) {

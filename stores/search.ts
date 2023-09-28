@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
 
 export const useSearch = defineStore('search', () => {
-  const searchOpen = ref(false)
+  const route = useRoute()
+  const searchOpen = ref(route.name === 'search')
   const fromPage = ref('/')
 
   function toggleSearch(state?: boolean) {
