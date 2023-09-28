@@ -51,6 +51,31 @@ Not supports in Firefox and IE */
   }
 }
 
+@layer components {
+  /* lazy image */
+  .lazy-img-wrapper {
+    position: relative;
+    background: theme('colors.neutral.800/20');
+  }
+
+  .lazy-img-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('@/assets/images/loader.svg') center no-repeat;
+  }
+
+  .lazy-img {
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .loaded .lazy-img {
+    opacity: 1;
+  }
+  /* lazy image */
+}
+
 @layer utilities {
   .wrapper {
     @apply px-4 md:px-10 xl:px-14;
