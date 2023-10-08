@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { MediaType } from '@/types'
 import { TMDB_IMAGE_BASE } from '@/constants/images'
+import { useMedia, useRecommendations } from '~/stores/media'
 
 definePageMeta({
   key: (route) => route.fullPath,
@@ -13,33 +14,38 @@ const route = useRoute()
 const type = (route.params.type as MediaType) || 'movie'
 const id = route.params.id as string
 
-const [{ data: item }, { data: recommendations }] = await Promise.all([
-  getMedia(type, id),
-  getRecommendations(type, id),
-])
+const { data: item, suspense } = useMedia(type, id)
+const { data: recommendations, isLoading: isLoadingRecommendations } =
+  useRecommendations(type, id)
 
 const tab = ref<'overview' | 'videos' | 'photos'>('overview')
 
 const directors = computed(
-  () => item.value.credits?.crew.filter((person) => person.job === 'Director'),
+  () => item.value?.credits?.crew.filter((person) => person.job === 'Director'),
 )
 
 const releaseYear = computed(() => {
-  const date = item.value.release_date ? item.value.release_date : item.value.first_air_date
+  if (!item.value) return
+  const date = item.value.release_date
+    ? item.value.release_date
+    : item.value.first_air_date
   return date?.slice(0, 4)
 })
 useHead({
-  title: `${
-    item.value.name || item.value.title
-  } (${item.value.release_date!.slice(0, 4)})`,
+  title: () =>
+    item.value
+      ? `${item.value?.name || item.value?.title} (${releaseYear.value})`
+      : null,
   meta: [
-    { name: 'description', content: item.value.overview },
+    { name: 'description', content: () => item.value?.overview },
     {
       property: 'og:image',
-      content: `${TMDB_IMAGE_BASE}/w370_and_h556_bestv2${item.value.poster_path}`,
+      content: () =>
+        `${TMDB_IMAGE_BASE}/w370_and_h556_bestv2${item.value?.poster_path}`,
     },
   ],
 })
+if (process.server) await suspense()
 </script>
 
 <template>
@@ -83,7 +89,7 @@ useHead({
         </button>
       </div>
       <!-- tab content -->
-      <div class="margin-section">
+      <div v-if="item" class="margin-section">
         <template v-if="tab === 'overview'">
           <div class="lg:container lg:mx-auto">
             <section
@@ -297,10 +303,10 @@ useHead({
     </section>
     <!-- recommendations -->
     <MediaSection
-      v-if="recommendations.results.length"
       :title="$t('More Like This')"
       :type="type"
-      :items="recommendations.results"
+      :items="recommendations"
+      :loading="isLoadingRecommendations"
     />
   </main>
 </template>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type { Media, MediaType } from '~/types'
+import type { Media, MediaType, PageResult } from '~/types'
+import { useMedia, useMediaList } from '@/stores/media'
 
 definePageMeta({
   key: (route) => route.fullPath,
@@ -31,25 +32,32 @@ const QUERY_LIST: Record<string, QueryItem[]> = {
 const route = useRoute()
 const type = (route.params.type as MediaType) || 'movie'
 
-const { data: popularList } = await getMediaList(
+const {
+  data: popularList,
+  isLoading,
+  suspense: suspensePopularList,
+} = useMediaList(type, QUERY_LIST[type][0].query, 1)
+await suspensePopularList()
+const { data: featured, suspense: suspenseFeatured } = useMedia(
   type,
-  QUERY_LIST[type][0].query,
-  1,
+  popularList.value!.results[0].id,
 )
-const featured = ref<Media>(
-  popularList.value.results[Math.floor(Math.random() * 4)],
-)
-getMedia('movie', featured.value.id).then(
-  ({ data }) => (featured.value = data.value),
-)
-const [{ data: list1 }, { data: list2 }, { data: list3 }] = await Promise.all(
+
+const suspenseLists = createControlledPromise<void>()
+const loading = ref(true)
+const lists = ref<PageResult<Media>[]>()
+Promise.all(
   QUERY_LIST[type].slice(1).map((q) => getMediaList(q.type, q.query, 1)),
-)
-const lists = computed(() => [list1, list2, list3])
+).then((data) => {
+  suspenseLists.resolve()
+  loading.value = false
+  lists.value = data
+})
 
 useHead({
   title: type === 'movie' ? 'Movies' : 'TV Shows',
 })
+if (process.server) await Promise.all([suspenseFeatured(), suspenseLists])
 </script>
 
 <template>
@@ -59,7 +67,8 @@ useHead({
       :title="$t('Popular Movies')"
       :type="type"
       :query="QUERY_LIST[type][0].query"
-      :items="popularList.results"
+      :items="popularList?.results"
+      :loading="isLoading"
     />
     <MediaSection
       v-for="(q, index) in QUERY_LIST[type].slice(1)"
@@ -67,7 +76,8 @@ useHead({
       :title="$t(q.title)"
       :type="type"
       :query="q.query"
-      :items="lists[index].value.results"
+      :items="lists?.[index].results"
+      :loading="loading"
     />
   </main>
 </template>
