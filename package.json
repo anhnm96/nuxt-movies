@@ -11,7 +11,7 @@
   "devDependencies": {
     "@antfu/eslint-config": "^0.40.2",
     "@nuxt/devtools": "latest",
-    "@nuxtjs/i18n": "8.0.0-rc.3",
+    "@nuxtjs/i18n": "8.0.0-rc.5",
     "@nuxtjs/tailwindcss": "^6.8.0",
     "@types/node": "^18.17.3",
     "@vue/eslint-config-prettier": "^8.0.0",
