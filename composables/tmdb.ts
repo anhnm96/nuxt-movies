@@ -34,7 +34,7 @@ export function getTrending(
   return fetchTMDB(`trending/${type}/week`, { page })
 }
 
-export function getMedia(type: MediaType, id: string): Promise<Media> {
+export function getMedia(type: MediaType, id: string | number): Promise<Media> {
   return fetchTMDB(`${type}/${id}`, {
     append_to_response:
       'videos,credits,images,external_ids,release_dates,combined_credits',
@@ -47,7 +47,7 @@ export function getMedia(type: MediaType, id: string): Promise<Media> {
  */
 export function getRecommendations(
   type: MediaType,
-  id: string,
+  id: string | number,
   page = 1,
 ): Promise<PageResult<Media>> {
   return fetchTMDB(`${type}/${id}/recommendations`, { page })
