@@ -12,7 +12,7 @@ definePageMeta({
 
 const route = useRoute()
 const type = (route.params.type as MediaType) || 'movie'
-const id = route.params.id as string
+const id = Number(route.params.id)
 
 const { data: item, suspense } = useMedia(type, id)
 const { data: recommendations, isLoading: isLoadingRecommendations } =
@@ -45,6 +45,7 @@ useHead({
     },
   ],
 })
+
 if (process.server) await suspense()
 </script>
 

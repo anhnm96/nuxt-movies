@@ -2,12 +2,12 @@ import type { QueryClient } from '@tanstack/vue-query'
 import { useQueries, useQuery, useQueryClient } from '@tanstack/vue-query'
 import type { Media, MediaType, PageResult } from '@/types'
 
-export function useTrending(type: MediaType) {
+export function useTrending(type: MediaType, page = 1) {
   const queryClient = useQueryClient()
   const result = useQuery({
-    queryKey: [type, 'trending'],
+    queryKey: [type, 'trending', page],
     queryFn: async () => {
-      const list = await getTrending(type)
+      const list = await getTrending(type, page)
       list.results.forEach((item) => {
         queryClient.setQueryData([type, item.id], item)
         queryClient.invalidateQueries({
@@ -16,6 +16,15 @@ export function useTrending(type: MediaType) {
           refetchType: 'none',
         })
       })
+      const cachedTrending = queryClient.getQueryData([type, 'trending'])
+      if (!cachedTrending) {
+        queryClient.setQueryData([type, 'trending'], () => {
+          return {
+            pages: [list],
+            pageParams: [1],
+          }
+        })
+      }
       return list
     },
   })
@@ -23,7 +32,7 @@ export function useTrending(type: MediaType) {
   return result
 }
 
-export function useMedia(type: MediaType, id: string) {
+export function useMedia(type: MediaType, id: number) {
   const result = useQuery({
     queryKey: [type, id],
     queryFn: () => getMedia(type, id),
@@ -77,7 +86,7 @@ export function useMediaLists(arr: any[]) {
   return result
 }
 
-export function useRecommendations(type: MediaType, id: string) {
+export function useRecommendations(type: MediaType, id: number) {
   const result = useQuery({
     queryKey: [type, 'recommendations', id],
     queryFn: () => getRecommendations(type, id),
