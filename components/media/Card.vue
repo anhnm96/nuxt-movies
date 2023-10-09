@@ -9,12 +9,13 @@ defineProps<{
 
 const [DefineCard, ReuseCard] = createReusableTemplate<{
   imgSrc?: string
-  title?: string
+  title?: string,
+  id?: number
 }>()
 </script>
 
 <template>
-  <DefineCard v-slot="{ imgSrc, title }">
+  <DefineCard v-slot="{ id, imgSrc, title }">
     <div
       class="relative h-0 overflow-hidden pt-[150%] transition-transform duration-500 ease-in-out group-hover:scale-[1.03]"
     >
@@ -26,6 +27,7 @@ const [DefineCard, ReuseCard] = createReusableTemplate<{
         :alt="title"
         draggable="false"
         loading="lazy"
+        :style="{'view-transition-name': `item-${id}`}"
       />
       <div
         v-else
@@ -38,7 +40,7 @@ const [DefineCard, ReuseCard] = createReusableTemplate<{
   </DefineCard>
   <template v-if="instanceOf<Media>(item, 'overview')">
     <NuxtLink draggable="false" class="group" :to="`/${type}/${item.id}`">
-      <ReuseCard :title="item.title || item.name" :img-src="item.poster_path" />
+      <ReuseCard :id="item.id" :title="item.title || item.name" :img-src="item.poster_path" />
       <div class="flex items-baseline gap-1">
         <StarsRate class="w-[4.5rem]" :value="item.vote_average" />
         <p class="text-sm text-gray-400">
@@ -49,7 +51,7 @@ const [DefineCard, ReuseCard] = createReusableTemplate<{
   </template>
   <template v-if="instanceOf<Person>(item, 'gender')">
     <NuxtLink draggable="false" class="group" :to="`/person/${item.id}`">
-      <ReuseCard :title="item.name" :img-src="item.profile_path" />
+      <ReuseCard :id="item.id" :title="item.name" :img-src="item.profile_path" />
       <p class="text-sm text-gray-400">
         {{ item.character || item.known_for_department }}
       </p>
