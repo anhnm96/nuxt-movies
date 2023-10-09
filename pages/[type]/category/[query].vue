@@ -45,8 +45,15 @@ if (process.server) await suspense()
         />
       </template>
     </div>
-    <div v-if="isFetchingNextPage" class="mt-2 animate-pulse text-center">
-      <Icon name="mingcute:loading-line" class="animate-spin text-4xl" />
+    <div
+      v-if="isFetchingNextPage"
+      aria-label="loading"
+      class="mt-2 animate-pulse text-center"
+    >
+      <Icon
+        name="mingcute:loading-line"
+        class="animate-spin text-4xl text-primary"
+      />
     </div>
     <InfiniteLoad v-else-if="hasNextPage" @infinite-load="fetchNextPage" />
   </main>

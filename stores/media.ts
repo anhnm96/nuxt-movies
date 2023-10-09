@@ -97,3 +97,13 @@ export function useRecommendations(type: MediaType, id: number) {
 
   return result
 }
+
+export function userGenreList(type: MediaType) {
+  const result = useQuery({
+    queryKey: ['genres'],
+    queryFn: () => getGenreList(type),
+    staleTime: Number.POSITIVE_INFINITY,
+  })
+
+  return result
+}
