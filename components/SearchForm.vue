@@ -17,7 +17,7 @@ const goToRoute = debounce(() => {
       path: searchStore.fromPage,
     })
   }
-}, 200)
+}, 500)
 
 function goBack() {
   if (route.name === 'search') {
