@@ -59,6 +59,15 @@ export function getMediaListConfig(
           refetchType: 'none',
         })
       })
+      const cachedTrending = queryClient.getQueryData([type, query])
+      if (!cachedTrending) {
+        queryClient.setQueryData([type, query], () => {
+          return {
+            pages: [list],
+            pageParams: [1],
+          }
+        })
+      }
       return list
     },
   }
@@ -87,9 +96,21 @@ export function useMediaLists(arr: any[]) {
 }
 
 export function useRecommendations(type: MediaType, id: number) {
+  const queryClient = useQueryClient()
   const result = useQuery({
     queryKey: [type, 'recommendations', id],
-    queryFn: () => getRecommendations(type, id),
+    queryFn: async () => {
+      const list = await getRecommendations(type, id)
+      list.results.forEach((item) => {
+        queryClient.setQueryData([type, item.id], item)
+        queryClient.invalidateQueries({
+          queryKey: [type, item.id],
+          exact: true,
+          refetchType: 'none',
+        })
+      })
+      return list
+    },
     select(data) {
       return data.results
     },
