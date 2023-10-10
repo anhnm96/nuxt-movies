@@ -26,7 +26,7 @@ const releaseYear = computed(() => {
 </script>
 
 <template>
-  <div class="relative aspect-video max-h-[60vh] w-full">
+  <div class="relative aspect-video max-h-[60vh] 2xl:max-h-[65h] w-full">
     <div class="absolute inset-0 lg:left-auto lg:w-2/3">
       <Skeleton v-if="!item" class="h-full w-full" />
       <img

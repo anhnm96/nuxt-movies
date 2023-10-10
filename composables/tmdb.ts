@@ -5,6 +5,10 @@ export async function fetchTMDB(
   url: string,
   params: Record<string, string | number | boolean | undefined> = {},
 ): Promise<any> {
+  const defaultParams = {
+    include_adult: false,
+    without_genres: '27'
+  }
   if (params.language == null) {
     const locale = useNuxtApp().$i18n.locale
     params.language = unref(locale)
@@ -12,7 +16,7 @@ export async function fetchTMDB(
 
   return $fetch(url, {
     baseURL: `${apiBaseUrl}/tmdb`,
-    params,
+    params: {...defaultParams, ...params},
   })
 }
 

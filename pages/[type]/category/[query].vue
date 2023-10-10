@@ -37,7 +37,7 @@ if (process.server) await suspense()
   <main class="margin-section wrapper mx-auto lg:container">
     <h2>{{ title }}</h2>
     <div
-      class="mt-4 grid grid-cols-[repeat(auto-fit,_minmax(208px,_1fr))] gap-2 xl:mt-5"
+      class="mt-4 grid grid-cols-2 sm:grid-cols-[repeat(auto-fit,_minmax(208px,_1fr))] gap-2 xl:mt-5"
     >
       <template v-if="isLoading">
         <div v-for="i in 10" :key="i">

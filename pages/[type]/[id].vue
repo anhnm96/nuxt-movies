@@ -258,7 +258,7 @@ if (process.server) await suspense()
                 >
                   <img
                     v-lazyload
-                    class="lazy-img"
+                    class="lazy-img w-full"
                     loading="lazy"
                     :src="`${TMDB_IMAGE_BASE}/w533_and_h300_bestv2${i.file_path}`"
                     alt="photo"
