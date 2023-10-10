@@ -2,20 +2,28 @@ import type { QueryClient } from '@tanstack/vue-query'
 import { useQueries, useQuery, useQueryClient } from '@tanstack/vue-query'
 import type { Media, MediaType, PageResult } from '@/types'
 
+export function updateMediaCache(
+  list: PageResult<Media>,
+  type: MediaType,
+  queryClient: QueryClient = useQueryClient(),
+) {
+  list.results.forEach((item) => {
+    queryClient.setQueryData([type, item.id], item)
+    queryClient.invalidateQueries({
+      queryKey: [type, item.id],
+      exact: true,
+      refetchType: 'none',
+    })
+  })
+}
+
 export function useTrending(type: MediaType, page = 1) {
   const queryClient = useQueryClient()
   const result = useQuery({
     queryKey: [type, 'trending', page],
     queryFn: async () => {
       const list = await getTrending(type, page)
-      list.results.forEach((item) => {
-        queryClient.setQueryData([type, item.id], item)
-        queryClient.invalidateQueries({
-          queryKey: [type, item.id],
-          exact: true,
-          refetchType: 'none',
-        })
-      })
+      updateMediaCache(list, type, queryClient)
       const cachedTrending = queryClient.getQueryData([type, 'trending'])
       if (!cachedTrending) {
         queryClient.setQueryData([type, 'trending'], () => {
@@ -51,14 +59,7 @@ export function getMediaListConfig(
     queryKey: [type, query, page],
     queryFn: async () => {
       const list = await getMediaList(type, query, page)
-      list.results.forEach((item) => {
-        queryClient.setQueryData([type, item.id], item)
-        queryClient.invalidateQueries({
-          queryKey: [type, item.id],
-          exact: true,
-          refetchType: 'none',
-        })
-      })
+      updateMediaCache(list, type, queryClient)
       const cachedTrending = queryClient.getQueryData([type, query])
       if (!cachedTrending) {
         queryClient.setQueryData([type, query], () => {
@@ -101,14 +102,7 @@ export function useRecommendations(type: MediaType, id: number) {
     queryKey: [type, 'recommendations', id],
     queryFn: async () => {
       const list = await getRecommendations(type, id)
-      list.results.forEach((item) => {
-        queryClient.setQueryData([type, item.id], item)
-        queryClient.invalidateQueries({
-          queryKey: [type, item.id],
-          exact: true,
-          refetchType: 'none',
-        })
-      })
+      updateMediaCache(list, type, queryClient)
       return list
     },
     select(data) {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Media, MediaType, PageResult } from '~/types'
-import { useMedia, useMediaList } from '@/stores/media'
+import { updateMediaCache, useMedia, useMediaList } from '@/stores/media'
 
 definePageMeta({
   key: (route) => route.fullPath,
@@ -49,6 +49,7 @@ const lists = ref<PageResult<Media>[]>()
 Promise.all(
   QUERY_LIST[type].slice(1).map((q) => getMediaList(q.type, q.query, 1)),
 ).then((data) => {
+  data.forEach((list) => updateMediaCache(list, type))
   suspenseLists.resolve()
   loading.value = false
   lists.value = data
