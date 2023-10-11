@@ -1,12 +1,33 @@
-<script setup lang="ts">
-import type { Media, MediaType, PageResult } from '~/types'
-import { updateMediaCache, useMedia, useMediaList } from '@/stores/media'
+<script lang="ts">
+import { useMedia, useMediaList } from '@/stores/media'
+import type { MediaType } from '~/types'
 
+// enable view transition when move
+// from type-category-query to this page
+let lastPageQuery = null
+export default {
+  beforeRouteEnter(to, from) {
+    if (from.name === 'type-category-query') {
+      lastPageQuery = from.params.query as string
+    }
+  },
+}
+</script>
+
+<script setup lang="ts">
 definePageMeta({
   key: (route) => route.fullPath,
   validate: ({ params }) => {
     return ['movie', 'tv'].includes(params.type as MediaType)
   },
+})
+
+const activeList = ref()
+if (lastPageQuery) activeList.value = lastPageQuery
+onMounted(() => {
+  requestAnimationFrame(() => {
+    activeList.value = null
+  })
 })
 
 interface QueryItem {
@@ -43,22 +64,24 @@ const { data: featured, suspense: suspenseFeatured } = useMedia(
   popularList.value!.results[0].id,
 )
 
-const suspenseLists = createControlledPromise<void>()
-const loading = ref(true)
-const lists = ref<PageResult<Media>[]>()
-Promise.all(
-  QUERY_LIST[type].slice(1).map((q) => getMediaList(q.type, q.query, 1)),
-).then((data) => {
-  data.forEach((list) => updateMediaCache(list, type))
-  suspenseLists.resolve()
-  loading.value = false
-  lists.value = data
+const [
+  { data: list1, isLoading: isLoading1, suspense: suspense1 },
+  { data: list2, isLoading: isLoading2, suspense: suspense2 },
+  { data: list3, isLoading: isLoading3, suspense: suspense3 },
+] = QUERY_LIST[type].slice(1).map((q) => useMediaList(q.type, q.query, 1))
+const lists = computed(() => {
+  return [list1.value, list2.value, list3.value]
 })
+const loading = computed(
+  () => isLoading1.value && isLoading2.value && isLoading3.value,
+)
 
 useHead({
   title: type === 'movie' ? 'Movies' : 'TV Shows',
 })
-if (process.server) await Promise.all([suspenseFeatured(), suspenseLists])
+// if (process.server) await Promise.all([suspenseFeatured(), suspenseLists])
+if (process.server)
+  await Promise.all([suspenseFeatured(), suspense1(), suspense2(), suspense3()])
 </script>
 
 <template>
@@ -69,16 +92,20 @@ if (process.server) await Promise.all([suspenseFeatured(), suspenseLists])
       :type="type"
       :query="QUERY_LIST[type][0].query"
       :items="popularList?.results"
-      :loading="isLoading"
+      :loading="
+        isLoading || (activeList && activeList !== QUERY_LIST[type][0].query)
+      "
+      @before-navigate="activeList = QUERY_LIST[type][0].query"
     />
-    <MediaSection
-      v-for="(q, index) in QUERY_LIST[type].slice(1)"
-      :key="q.title"
-      :title="$t(q.title)"
-      :type="type"
-      :query="q.query"
-      :items="lists?.[index].results"
-      :loading="loading"
-    />
+    <template v-for="(q, index) in QUERY_LIST[type].slice(1)" :key="q.title">
+      <MediaSection
+        :title="$t(q.title)"
+        :type="type"
+        :query="q.query"
+        :items="lists[index]?.results"
+        :loading="loading || (activeList && activeList !== q.query)"
+        @before-navigate="activeList = q.query"
+      />
+    </template>
   </main>
 </template>

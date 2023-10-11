@@ -7,9 +7,11 @@ defineProps<{
   type: MediaType | 'person'
 }>()
 
+defineEmits(['beforeNavigate'])
+
 const [DefineCard, ReuseCard] = createReusableTemplate<{
   imgSrc?: string
-  title?: string,
+  title?: string
   id?: number
 }>()
 </script>
@@ -27,7 +29,7 @@ const [DefineCard, ReuseCard] = createReusableTemplate<{
         :alt="title"
         draggable="false"
         loading="lazy"
-        :style="{'view-transition-name': `item-${id}`}"
+        :style="{ 'view-transition-name': `item-${id}` }"
       />
       <div
         v-else
@@ -38,23 +40,51 @@ const [DefineCard, ReuseCard] = createReusableTemplate<{
     </div>
     <p class="mt-2.5 truncate">{{ title }}</p>
   </DefineCard>
-  <template v-if="instanceOf<Media>(item, 'overview')">
-    <NuxtLink draggable="false" class="group" :to="`/${type}/${item.id}`">
-      <ReuseCard :id="item.id" :title="item.title || item.name" :img-src="item.poster_path" />
+  <NuxtLink
+    v-if="instanceOf<Media>(item, 'overview')"
+    v-slot="{ navigate, href }"
+    :to="`/${type}/${item.id}`"
+    custom
+  >
+    <a
+      :href="href"
+      draggable="false"
+      class="group"
+      @click="$emit('beforeNavigate', $event, navigate)"
+    >
+      <ReuseCard
+        :id="item.id"
+        :title="item.title || item.name"
+        :img-src="item.poster_path"
+      />
       <div class="flex items-baseline gap-1">
         <StarsRate class="w-[4.5rem]" :value="item.vote_average" />
         <p class="text-sm text-gray-400">
           {{ item.vote_average }}
         </p>
       </div>
-    </NuxtLink>
-  </template>
-  <template v-if="instanceOf<Person>(item, 'gender')">
-    <NuxtLink draggable="false" class="group" :to="`/person/${item.id}`">
-      <ReuseCard :id="item.id" :title="item.name" :img-src="item.profile_path" />
+    </a>
+  </NuxtLink>
+  <NuxtLink
+    v-if="instanceOf<Person>(item, 'gender')"
+    v-slot="{ navigate, href }"
+    :to="`/person/${item.id}`"
+    custom
+  >
+    <a
+      :href="href"
+      draggable="false"
+      class="group"
+      @click="$emit('beforeNavigate', $event, navigate)"
+    >
+      <ReuseCard
+        :id="item.id"
+        :title="item.name"
+        :img-src="item.profile_path"
+      />
       <p class="text-sm text-gray-400">
         {{ item.character || item.known_for_department }}
       </p>
-    </NuxtLink>
-  </template>
+    </a>
+  </NuxtLink>
 </template>

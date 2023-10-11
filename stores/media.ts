@@ -5,7 +5,7 @@ import type { Media, MediaType, PageResult } from '@/types'
 export function updateMediaCache(
   list: PageResult<Media>,
   type: MediaType,
-  queryClient: QueryClient = useQueryClient(),
+  queryClient: QueryClient,
 ) {
   list.results.forEach((item) => {
     queryClient.setQueryData([type, item.id], item)

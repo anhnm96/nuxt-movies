@@ -239,8 +239,10 @@ function clickCarousel(e: Event) {
   if (
     startPosition?.x !== endPosition?.x ||
     startPosition?.y !== endPosition?.y
-  )
+  ) {
     e.preventDefault()
+    e.stopImmediatePropagation()
+  }
 }
 </script>
 

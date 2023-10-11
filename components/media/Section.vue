@@ -13,6 +13,13 @@ withDefaults(
     items: () => [],
   },
 )
+
+const emit = defineEmits(['beforeNavigate'])
+function beforeNavigate(e: Event, navigate: () => void) {
+  e.preventDefault()
+  emit('beforeNavigate')
+  navigate()
+}
 </script>
 
 <template>
@@ -47,10 +54,16 @@ withDefaults(
         <h2 class="text-lg md:text-xl xl:text-2xl">{{ title }}</h2>
         <NuxtLink
           v-if="query"
+          v-slot="{ navigate, href }"
           :to="`/${type}/category/${query}`"
-          class="ml-2.5 text-xs font-medium text-primary transition-opacity hover:opacity-80 md:text-sm xl:text-base"
+          custom
         >
-          {{ $t('Explore more') }}
+          <a
+            class="ml-2.5 text-xs font-medium text-primary transition-opacity hover:opacity-80 md:text-sm xl:text-base"
+            :href="href"
+            @click="beforeNavigate($event, navigate)"
+            >{{ $t('Explore more') }}</a
+          >
         </NuxtLink>
       </div>
       <MediaList class="mt-4">
@@ -58,7 +71,11 @@ withDefaults(
           <CarouselItem
             class="inline-block w-[calc(33.33%-7.33326px)] snap-start pr-2 leading-relaxed first-of-type:ml-[.9375rem] last-of-type:mr-[.4375rem] sm:w-[calc(25%-18px)] md:first-of-type:ml-10 md:last-of-type:mr-8 lg:w-[calc(20%-14.4px)] xl:w-[calc(20%-18.4px)] xl:first-of-type:ml-[3.125rem] xl:last-of-type:mr-[2.625rem] 2xl:w-[calc(16.667%-15.33364px)] min-[1800px]:w-[calc(14.286%-13.14312px)]"
           >
-            <MediaCard :item="item" :type="type" />
+            <MediaCard
+              :item="item"
+              :type="type"
+              @before-navigate="beforeNavigate"
+            />
           </CarouselItem>
         </template>
       </MediaList>
