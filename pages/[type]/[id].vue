@@ -102,7 +102,7 @@ if (process.server) await suspense()
                   class="lazy-img"
                   :src="`${TMDB_IMAGE_BASE}/w370_and_h556_bestv2${item.poster_path}`"
                   :alt="item.title"
-                  :style="{'view-transition-name': `item-${item.id}`}"
+                  :style="{ 'view-transition-name': `item-${item.id}` }"
                 />
               </div>
               <div class="space-y-6">

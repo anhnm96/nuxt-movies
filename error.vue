@@ -12,7 +12,7 @@ const message = computed(() =>
 useHead({
   title: message.value,
 })
-// eslint-disable-next-line n/prefer-global/process
+
 const isDev = process.dev
 </script>
 
