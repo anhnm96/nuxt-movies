@@ -14,9 +14,13 @@ const route = useRoute()
 const type = (route.params.type as MediaType) || 'movie'
 const id = Number(route.params.id)
 
-const { data: item, suspense } = useMedia(type, id)
-const { data: recommendations, isLoading: isLoadingRecommendations } =
-  useRecommendations(type, id)
+const { data: item, suspense: suspenseMedia } = useMedia(type, id)
+
+const {
+  data: recommendations,
+  isLoading: isLoadingRecommendations,
+  suspense: suspenseRecommend,
+} = useRecommendations(type, id)
 
 const tab = ref<'overview' | 'videos' | 'photos'>('overview')
 
@@ -46,7 +50,7 @@ useHead({
   ],
 })
 
-if (process.server) await suspense()
+if (process.server) await Promise.all([suspenseMedia(), suspenseRecommend()])
 </script>
 
 <template>
