@@ -35,6 +35,14 @@ const releaseYear = computed(() => {
     : item.value.first_air_date
   return date?.slice(0, 4)
 })
+
+// tab2
+const showModal = ref(false)
+const videoId = ref('')
+function showVideoModal(id: string) {
+  showModal.value = true
+  videoId.value = id
+}
 useHead({
   title: () =>
     item.value
@@ -131,12 +139,12 @@ if (process.server) await Promise.all([suspenseMedia(), suspenseRecommend()])
                     <li class="contents">
                       <p>{{ $t('Director') }}</p>
                       <div class="flex flex-wrap gap-1">
-                        <a
+                        <NuxtLink
                           v-for="person of directors"
                           :key="person.id"
                           :to="`/person/${person.id}`"
                           class="rounded bg-gray-600/50 px-2 py-1 text-sm transition hover:bg-gray-600/70"
-                          >{{ person.name }}</a
+                          >{{ person.name }}</NuxtLink
                         >
                       </div>
                     </li>
@@ -219,7 +227,11 @@ if (process.server) await Promise.all([suspenseMedia(), suspenseRecommend()])
               :key="i.id"
               class="flex flex-col gap-2.5"
             >
-              <div class="aspect-video">
+              <button
+                :aria-label="i.name"
+                class="aspect-video"
+                @click="showVideoModal(i.key)"
+              >
                 <img
                   v-lazyload
                   loading="lazy"
@@ -227,7 +239,7 @@ if (process.server) await Promise.all([suspenseMedia(), suspenseRecommend()])
                   :src="`https://img.youtube.com/vi/${i.key}/mqdefault.jpg`"
                   :alt="i.name"
                 />
-              </div>
+              </button>
               <div class="flex grow flex-col justify-between">
                 <p>{{ i.name }}</p>
                 <p class="mt-1 text-sm text-gray-400">{{ i.type }}</p>
@@ -314,5 +326,22 @@ if (process.server) await Promise.all([suspenseMedia(), suspenseRecommend()])
       :items="recommendations"
       :loading="isLoadingRecommendations"
     />
+    <Modal v-slot="{ close }" v-model="showModal">
+      <button
+        class="z-100 fixed right-1 top-1 p-3 text-3xl"
+        aria-label="close"
+        @click="close"
+      >
+        <Icon name="i-carbon-close" />
+      </button>
+      <div class="aspect-video w-[80vw]">
+        <iframe
+          allow="autoplay; encrypted-media"
+          allowfullscreen
+          :src="`https://www.youtube.com/embed/${videoId}?rel=0&showinfo=0&autoplay=1`"
+          class="h-full w-full"
+        />
+      </div>
+    </Modal>
   </main>
 </template>
