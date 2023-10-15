@@ -38,8 +38,15 @@ useHead({
       crossorigin: true,
     },
     {
+      rel: 'preload',
+      href: 'https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap',
+      as: 'style',
+    },
+    {
       rel: 'stylesheet',
       href: 'https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap',
+      media: 'print',
+      onload: "this.media='all'",
     },
   ],
 })
