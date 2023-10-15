@@ -78,6 +78,23 @@ function beforeNavigate(e: Event, navigate: () => void) {
             />
           </CarouselItem>
         </template>
+        <CarouselItem
+          class="inline-block w-[calc(33.33%-7.33326px)] snap-start pr-2 leading-relaxed first-of-type:ml-[.9375rem] last-of-type:mr-[.4375rem] sm:w-[calc(25%-18px)] md:first-of-type:ml-10 md:last-of-type:mr-8 lg:w-[calc(20%-14.4px)] xl:w-[calc(20%-18.4px)] xl:first-of-type:ml-[3.125rem] xl:last-of-type:mr-[2.625rem] 2xl:w-[calc(16.667%-15.33364px)] min-[1800px]:w-[calc(14.286%-13.14312px)]"
+        >
+          <NuxtLink :to="`/${type}/category/${query}`">
+            <div
+              class="relative overflow-hidden pt-[150%] transition-transform duration-500 ease-in-out group-hover:scale-[1.03]"
+            >
+              <p
+                class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+              >
+                {{ $t('Explore more') }}
+              </p>
+            </div>
+          </NuxtLink>
+          <p aria-hidden="true" class="mt-1.5">&nbsp;</p>
+          <p aria-hidden="true">&nbsp;</p>
+        </CarouselItem>
       </MediaList>
     </template>
   </section>

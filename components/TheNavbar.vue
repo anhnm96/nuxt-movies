@@ -29,7 +29,7 @@ const navLinks = [
       </li>
       <li class="w-full">
         <button
-          class="flex justify-center py-2 text-3xl lg:p-5"
+          class="flex w-full justify-center py-2 text-3xl lg:p-5"
           aria-label="Search"
           aria-haspopup="true"
           :aria-expanded="searchStore.searchOpen"
