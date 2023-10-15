@@ -19,7 +19,7 @@ const [DefineCard, ReuseCard] = createReusableTemplate<{
 <template>
   <DefineCard v-slot="{ id, imgSrc, title }">
     <div
-      class="relative h-0 overflow-hidden pt-[150%] transition-transform duration-500 ease-in-out group-hover:scale-[1.03]"
+      class="relative overflow-hidden pt-[150%] transition-transform duration-500 ease-in-out group-hover:scale-[1.03]"
     >
       <img
         v-if="imgSrc"

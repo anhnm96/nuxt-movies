@@ -36,6 +36,8 @@ const releaseYear = computed(() => {
         v-else
         v-lazyload
         :src="`${TMDB_IMAGE_BASE}/original${item.backdrop_path}`"
+        :srcset="`${TMDB_IMAGE_BASE}/w342${item.backdrop_path} 342w, ${TMDB_IMAGE_BASE}/w500${item.backdrop_path} 500w, ${TMDB_IMAGE_BASE}/w780${item.backdrop_path} 780w, ${TMDB_IMAGE_BASE}/original${item.backdrop_path} 1000w`"
+        sizes="(max-width: 375px) 342px, (max-width: 500px) 500px, (max-width: 780px) 780px, 1000px"
         :alt="item.title || item.name"
         class="lazy-img h-full w-full object-cover"
         decoding="async"
