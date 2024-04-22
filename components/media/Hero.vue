@@ -28,7 +28,7 @@ const releaseYear = computed(() => {
 <template>
   <div
     style="view-transition-name: hero"
-    class="relative aspect-video max-h-[60vh] w-full 2xl:max-h-[65h]"
+    class="relative z-50 aspect-video max-h-[60vh] w-full 2xl:max-h-[65h]"
   >
     <div class="absolute inset-0 lg:left-auto lg:w-2/3">
       <Skeleton v-if="!item" class="h-full w-full" />
