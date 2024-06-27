@@ -34,7 +34,7 @@ function unFocus() {
 </script>
 
 <template>
-  <div class="fixed left-0 right-0 top-0 z-20 lg:left-[70px]">
+  <div class="fixed left-0 right-0 top-0 z-[60] lg:left-[70px]">
     <form @submit.prevent>
       <label class="sr-only" for="search">Search</label>
       <div class="flex bg-neutral-800 text-white">
