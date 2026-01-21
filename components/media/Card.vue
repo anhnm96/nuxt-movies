@@ -25,7 +25,7 @@ const [DefineCard, ReuseCard] = createReusableTemplate<{
         v-if="imgSrc"
         v-lazyload
         class="lazy-img absolute left-0 top-0 block h-full w-full"
-        :src="`${TMDB_IMAGE_BASE}/w370_and_h556_bestv2${imgSrc}`"
+        :src="`${TMDB_IMAGE_BASE}/w500${imgSrc}`"
         :alt="title"
         draggable="false"
         loading="lazy"

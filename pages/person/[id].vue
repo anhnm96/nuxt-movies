@@ -31,7 +31,7 @@ function formatContent(str: string) {
       <div class="w-1/4 max-w-md flex-shrink-0">
         <img
           v-if="person.profile_path"
-          :src="`${TMDB_IMAGE_BASE}/w370_and_h556_bestv2${person.profile_path}`"
+          :src="`${TMDB_IMAGE_BASE}/w500${person.profile_path}`"
           :alt="person.name"
           :style="{ 'view-transition-name': `item-${id}` }"
         />

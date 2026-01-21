@@ -53,7 +53,7 @@ useHead({
     {
       property: 'og:image',
       content: () =>
-        `${TMDB_IMAGE_BASE}/w370_and_h556_bestv2${item.value?.poster_path}`,
+        `${TMDB_IMAGE_BASE}/w500${item.value?.poster_path}`,
     },
   ],
 })
@@ -112,7 +112,7 @@ if (process.server) await Promise.all([suspenseMedia(), suspenseRecommend()])
                 <img
                   v-lazyload
                   class="lazy-img"
-                  :src="`${TMDB_IMAGE_BASE}/w370_and_h556_bestv2${item.poster_path}`"
+                  :src="`${TMDB_IMAGE_BASE}/w500${item.poster_path}`"
                   :alt="item.title"
                   :style="{ 'view-transition-name': `item-${item.id}` }"
                 />
@@ -276,7 +276,7 @@ if (process.server) await Promise.all([suspenseMedia(), suspenseRecommend()])
                     v-lazyload
                     class="lazy-img w-full"
                     loading="lazy"
-                    :src="`${TMDB_IMAGE_BASE}/w533_and_h300_bestv2${i.file_path}`"
+                    :src="`${TMDB_IMAGE_BASE}/w500${i.file_path}`"
                     alt="photo"
                   />
                 </div>
@@ -309,7 +309,7 @@ if (process.server) await Promise.all([suspenseMedia(), suspenseRecommend()])
                     v-lazyload
                     class="lazy-img"
                     loading="lazy"
-                    :src="`${TMDB_IMAGE_BASE}/w370_and_h556_bestv2${i.file_path}`"
+                    :src="`${TMDB_IMAGE_BASE}/w500${i.file_path}`"
                     alt="photo"
                   />
                 </div>
